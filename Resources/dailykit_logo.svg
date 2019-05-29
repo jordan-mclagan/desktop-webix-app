@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="181px" height="181px" viewBox="0 0 181 181" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(2.000000, 2.000000)">
+            <circle id="Oval" stroke="#000000" stroke-width="5" fill="#FFFFFF" cx="88.5" cy="88.39" r="87.55"></circle>
+            <path d="M65.25,154.75 L88.34,156 C125.67,156.08 155.99,125.89 156.07,88.57 C156.15,51.25 125.96,20.92 88.64,20.84 L66,20.84 L65.25,154.75 Z" id="Path" stroke="#000000" stroke-width="5" fill="#FFFFFF"></path>
+            <path d="M89.75,111 L87.31,110.99 C87.06,110.99 86.86,110.69 86.86,110.32 L86.97,44.16 C86.97,43.79 87.17,43.49 87.42,43.49 L89.86,43.5 C90.11,43.5 90.31,43.8 90.31,44.17 L90.2,110.33 C90.2,110.71 90,111.01 89.75,111 Z" id="Path" fill="#000000"></path>
+            <g id="Group" transform="translate(86.000000, 65.000000)" fill="#000000" stroke="#000000" stroke-width="5">
+                <path d="M29.91,48.15 L0.5,23.5 L42.51,2.24 L43.92,1.52 C45.51,0.71 47.31,0.39 49.09,0.62 L52,1 L49.73,3.51 C49.01,4.31 48.14,4.97 47.18,5.47 L45.07,6.55 L4.5,23.5 L33.15,44.29 C34.28,45.03 35.26,45.98 36.02,47.1 L38,50 L34.79,49.78 C33.05,49.66 31.37,49.1 29.91,48.15 Z" id="Path"></path>
+            </g>
+            <circle id="Oval" stroke="#000000" stroke-width="5" fill="#FFFFFF" cx="88.5" cy="89.5" r="7"></circle>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,2 @@
+[20-May-2019 06:47:51 Etc/GMT] PHP Warning:  include(../../db/config.php): failed to open stream: No such file or directory in /home/groctoov/public_html/dailyos/index.php on line 17
+[20-May-2019 06:47:51 Etc/GMT] PHP Warning:  include(): Failed opening '../../db/config.php' for inclusion (include_path='.:/opt/alt/php71/usr/share/pear') in /home/groctoov/public_html/dailyos/index.php on line 17
