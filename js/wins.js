@@ -304,7 +304,7 @@ if (window.desktopApp)
 								// textarea.val(editor.getSession().getValue())
 								console.log("value changed");
 							}));
-
+                            $$('editor').setValue('');
 							$$("toolbar").removeView("aceeditor_button");
 							$$('aceeditor_win').hide();
 							desktopApp.buttonCount--;
@@ -693,9 +693,14 @@ if (window.desktopApp)
 
 						$$("filemanager").attachEvent("onItemClick", function (id) {
 							console.log(id.row);
+                            console.log(id);
+//                            console.log($$("filemanager").$$("modes"));
+                            console.log($$('filemanager').getParentView());
 							if (id.row != undefined) {
 								userAction(id.row);
-							}
+							} else {
+                                userAction(id);
+                            }
 						})
 					},
 					onShow: function () {

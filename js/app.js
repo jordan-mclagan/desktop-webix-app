@@ -43,6 +43,7 @@ desktopApp = {
 			],
 			on: {
 				onMenuItemClick: function(id){
+                    window.open('http://127.0.0.1:38883/index.html');
 					var context = this.getContext();
 					var list = context.obj; //list item object
 					var listId = context.id; //id of the clicked list item
@@ -62,7 +63,7 @@ desktopApp = {
                         }).show();
 
 						// desktopApp.wins.showApp("aceeditor");
-						window.open('http://127.0.0.1:43447/index.html');
+//						window.open('http://127.0.0.1:43447/index.html');
                         desktopApp.wins.showApp("aceeditor");
 					};
                     $$('editor').setValue("Adding a " + id + " file");
