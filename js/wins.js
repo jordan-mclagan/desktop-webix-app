@@ -1,4 +1,5 @@
-let currentfile = '';
+let currentfile;
+let initialData;
 if (window.desktopApp)
 	desktopApp.wins = {
 		active: null,
@@ -293,18 +294,22 @@ if (window.desktopApp)
 
 							aceeditor.render();
 						}, function () {
-                            console.log($$('editor').getValue());
+                            let finalData  = $$('editor').getValue();
 							console.log(currentfile);
+                            if(currentfile !== undefined){
+                                if(Object.is(initialData, finalData)) {
+                                    console.log("No change in data");
+                                } else {
+                                    console.log("Change in data");
+                                    updateData(currentfile, finalData);
+                                }
+                            }
 
-//							editor.getSession().on("change", function () {
-//								textarea.val(editor.getSession().getValue());
-//							});
-
-							if($$('editor').getEditor().getSession().on("change", function () {
-								// textarea.val(editor.getSession().getValue())
-								console.log("value changed");
-							}));
-                            $$('editor').setValue('');
+//							if($$('editor').getEditor().getSession().on("change", function () {
+//								// textarea.val(editor.getSession().getValue())
+//								console.log("value changed");
+//							}));
+//                            $$('editor').setValue('');
 							$$("toolbar").removeView("aceeditor_button");
 							$$('aceeditor_win').hide();
 							desktopApp.buttonCount--;
@@ -313,22 +318,12 @@ if (window.desktopApp)
 				},
 				body: function (editorValue) {
 					console.log("This is editor value", editorValue);
-					editorValue = editorValue || "";
+//					editorValue = editorValue || '';
 					return {
 
 						id: "editor",
 						view: "ace-editor",
-						value: "No value",
-						// value: editorValue // code string
-
-						//						view: "dhx-gantt",
-						//						id: "gantt",
-						//						init: function () {
-						//							//do nothing
-						//						},
-						//						ready: function () {
-						//							gantt.parse(tasks);
-						//						}
+						value: " ",
 					}
 				},
 				events: {
@@ -344,21 +339,13 @@ if (window.desktopApp)
 
 					},
 					onLiveEdit: function (state, editor, ignoreUpdate) {
-						//                        webix.message("Current value: " + state.value);
-						//                        console.log(state.value);
 						console.log($$('editor').getValue());
-
 					},
 
 
 				}
 			},
 
-			//            var iframe = webix.ui({     
-			//    view:"iframe", 
-			//    id:"frame-body", 
-			//    src:"//docs.webix.com/samples/80_docs/data/pageA.html"
-			//});
 			orders: {
 				toolbar: function () {
 					return [
@@ -384,17 +371,6 @@ if (window.desktopApp)
 						id: "frame",
 						view: "iframe",
 						src: "http://groctaurantretail.com/admin/zxy321/orders.php", // code string
-						//                        width: "200",
-						//                        height: "200"
-
-						//						view: "dhx-gantt",
-						//						id: "gantt",
-						//						init: function () {
-						//							//do nothing
-						//						},
-						//						ready: function () {
-						//							gantt.parse(tasks);
-						//						}
 					}
 				},
 				events: {
@@ -430,17 +406,6 @@ if (window.desktopApp)
 						id: "frame",
 						view: "iframe",
 						src: "http://groctaurantretail.com/admin/zxy321/recipe.php", // code string
-						//                        width: "200",
-						//                        height: "200"
-
-						//						view: "dhx-gantt",
-						//						id: "gantt",
-						//						init: function () {
-						//							//do nothing
-						//						},
-						//						ready: function () {
-						//							gantt.parse(tasks);
-						//						}
 					}
 				},
 				events: {
@@ -512,17 +477,6 @@ if (window.desktopApp)
 						id: "frame",
 						view: "iframe",
 						src: "http://groctaurantretail.com/admin/zxy321/merchant.php", // code string
-						//                        width: "200",
-						//                        height: "200"
-
-						//						view: "dhx-gantt",
-						//						id: "gantt",
-						//						init: function () {
-						//							//do nothing
-						//						},
-						//						ready: function () {
-						//							gantt.parse(tasks);
-						//						}
 					}
 				},
 				events: {
@@ -568,41 +522,6 @@ if (window.desktopApp)
 
 				}
 			},
-
-			//            popup: {
-			//				toolbar: function () {
-			//					return [
-			//						"Accounting",
-			//						function () {
-			//							$$('accounting_win').hide();
-			//							webix.html.removeCss($$("accounting_button").$view, "active");
-			//						},
-			//						function () {
-			//							$$("accounting_win").config.fullscreen = !$$("accounting_win").config.fullscreen;
-			//							$$("accounting_win").resize();
-			//
-			//							accounting.render();
-			//						}, function () {
-			//							$$("toolbar").removeView("accounting_button");
-			//							$$('accounting_win').hide();
-			//							desktopApp.buttonCount--;
-			//						}
-			//					]
-			//				},
-			//				body: function () {
-			//					return {
-			//						id: "frame",
-			//						view: "iframe",
-			//						src: "http://groctaurantretail.com/admin/zxy321/accounting.php",
-			//					}
-			//				},
-			//				events: {
-			//					onBeforeShow: function () {
-			//						desktopApp.beforeWinShow("accounting");
-			//					},
-			//
-			//				}
-			//			},
 
 
 			deliveredAndRejectedOrders: {
@@ -675,14 +594,6 @@ if (window.desktopApp)
 						var actions = $$("filemanager").getMenu();
 						actions.add({ id: "newFile", icon: "file", value: "Create New File" });
 
-						//						actions.attachEvent("onItemClick", function (id) {
-						//							if (id == "newFile") {
-						//                                desktopApp.wins.showApp("aceeditor");
-						//                                $$("aceeditor").setValue("newcode");
-						//
-						//                        }
-						//						});
-
 						$$("filemanager").load("http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/loadfiles");
 						$$("filemanager").attachEvent("onBeforeDeleteFile", function (id) {
 							// your code
@@ -694,12 +605,15 @@ if (window.desktopApp)
 						$$("filemanager").attachEvent("onItemClick", function (id) {
 							console.log(id.row);
                             console.log(id);
-//                            console.log($$("filemanager").$$("modes"));
-                            console.log($$('filemanager').getParentView());
-							if (id.row != undefined) {
-								userAction(id.row);
-							} else {
-                                userAction(id);
+                            if(id.row !== undefined || id !== undefined && id !== '$segmented1' && !id.startsWith('$button') && !id.startsWith('$search')) {
+
+                                if (id.row != undefined) {
+                                    currentfile = id.row;
+                                    userAction(id.row);
+                                } else {
+                                    currentfile = id;
+                                    userAction(id);
+                                }                     
                             }
 						})
 					},
@@ -725,77 +639,44 @@ if (window.desktopApp)
 						console.log(value, id, type);
 					},
 
-
-					//                    onItemClick : function(id) {
-					//                        if (id == "newFile") {
-					//                                desktopApp.wins.showApp("aceeditor");
-					//                                $$("aceeditor").setValue("newcode");
-					//
-					//                        }
-					//                    },
-					// onBeforeDelete: function (id) {
-					// 	//... some code here ... 
-					// 	//return false to block operation
-					// 	alert(this.item(id).title);
-					// 	// if(id == 'chicken-biryani') {
-					// 	// 	return false;
-					// 	// }
-					// 	// return true;
-					// 	return false
-
-					// },
 				}
 			}
 		}
 	};
 
 let editor = function (data) {
-	desktopApp.wins.showApp("aceeditor", "{new : data}");
-	console.log($$("editor"));
-//    let editor = $$('editor').getEditor.setValue(data)
+	desktopApp.wins.showApp("aceeditor");
+
 	let editordata = $$("editor").getValue();
-//	console.log(editordata)
-    console.log(data)
+    console.log('Setting this data to editor app',data)
 	$$("editor").setValue(data);
-	//    $$("editor").getEditor.setValue("Hellooooo")
-	//    console.log($$("editor").getValue());
 }
 
+let updateData = function(filepath, data){
+    console.log(filepath);
+    console.log(data);
+    currentfile = filepath;
+    let body = { 
+        'file'  : filepath,
+        'data'  : data,
+    };
+	JSON.stringify(body);
 
-//let userAction = async function (filepath){
-////	JSON.stringify(filepath);
-//    let data = {'file' : filepath};
-//    JSON.stringify(data);
-//    console.log(data);
-//		const response = await fetch('http://127.0.0.1:3000/getFile', {
-//			method: 'post',
-//            headers: {
-//                'Content-Type': 'application/x-www-form-urlencoded',
-//            },
-////			body: data, // string or object
-//            body: {
-//                "file": "./filesystem/Recipes/APPLE CINNAMON MOUSSE.json"
-//            },
-//            
-////			headers:{
-////                'Accept': 'application/json',
-////				'Content-Type': 'application/json',
-//////               'Access-Control-Allow-Origin': '*',
-//////               'Access-Control-Allow-Credentials' :true,
-//////                'credentials': "include",
-////
-////			},
-//			mode:"no-cors",
-//		});
-//    console.log(response);
-//	const myJson = await response.json(); //extract JSON from the http response
-//	console.log(myJson);
-//}
+    webix.ajax().headers({
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		'Access-Control-Allow-Credentials': true,
+		'Access-Control-Allow-Origin': '*',
+	}).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/updateFile', body)
+		.then(function (data) {
+			data = data.json();
+			console.log('Status response of update data',data);
+		})    
+}
 
 let userAction = (filepath) => {
 	let body = { 'file' : filepath};
 	JSON.stringify(body);
-    currentfile = filepath;
 	webix.ajax().headers({
 		"Accept": "application/json",
 		"Content-Type": "application/json",
@@ -804,15 +685,17 @@ let userAction = (filepath) => {
 	}).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/getFile', body)
 		.then(function (data) {
 			data = data.json();
-			console.log(data);
-			return data;
+        if(data.response.status != 'fail') {
+			console.log('initial data response from server',data);
+            initialData = data;
+//			return data;
+//            let modified = JSON.stringify(data.response, null, 4)
+//            console.log('Stringified Data',modified);
+            editor(data.response)
+            
+        }
 		})
-		.then(function (data) {
-
-        let modified = JSON.stringify(data, null, 4)
-        console.log(modified);
-        modified += ""+modified+"";
-			editor(modified);
-
-		})
+//		.then(function (data) {
+//        
+//		})
 }
