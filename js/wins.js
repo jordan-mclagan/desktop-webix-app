@@ -310,6 +310,7 @@ if (window.desktopApp)
 //								console.log("value changed");
 //							}));
                             $$('editor').setValue('');
+                            currentfile = undefined;
 							$$("toolbar").removeView("aceeditor_button");
 							$$('aceeditor_win').hide();
 							desktopApp.buttonCount--;
