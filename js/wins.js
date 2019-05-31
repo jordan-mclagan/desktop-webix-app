@@ -309,7 +309,7 @@ if (window.desktopApp)
 //								// textarea.val(editor.getSession().getValue())
 //								console.log("value changed");
 //							}));
-//                            $$('editor').setValue('');
+                            $$('editor').setValue('');
 							$$("toolbar").removeView("aceeditor_button");
 							$$('aceeditor_win').hide();
 							desktopApp.buttonCount--;
