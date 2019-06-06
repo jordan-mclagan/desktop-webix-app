@@ -7,11 +7,9 @@ desktopApp = {
 		this.startTime();
 		this.createMenu();
         this.createContextMenu();
-//		$$('contextmenu').attachTo($$('screens'));
-    //    $$("contextmenu").attachTo(document.getElementsByClassName(" webix_full_screen")[0]);
+        $$("contextmenu").attachTo(document.getElementsByClassName(" webix_full_screen")[0]);
     
         this.createAppContextMenu();
-        console.log($$('desktop-items-row-0'));
         let columns = parseInt(desktop_icons.length/5);
         for(let i=0; i<= columns; i++){
          $$("appcontextmenu").attachTo($$("desktop-items-row-" + i));   
