@@ -298,7 +298,6 @@ if (window.desktopApp)
 					return [
 						"Ace Editor",
 						function () {
-							console.log("nothing");
                             openNewWindow("aceeditor");
 						},
 						function () {
@@ -368,6 +367,9 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Orders",
+                        function () {
+                            openNewWindow("orders");
+						},
 						function () {
 							$$('orders_win').hide();
 							webix.html.removeCss($$("orders_button").$view, "active");
@@ -403,6 +405,9 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Recipes",
+                         function () {
+                            openNewWindow("recipes");
+						},
 						function () {
 							$$('recipes_win').hide();
 							webix.html.removeCss($$("recipes_button").$view, "active");
@@ -438,6 +443,9 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"CRM",
+                         function () {
+                            openNewWindow("crm");
+						},
 						function () {
 							$$('crm_win').hide();
 							webix.html.removeCss($$("crm_button").$view, "active");
@@ -474,6 +482,9 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Merchants",
+                         function () {
+                            openNewWindow("merchants");
+						},
 						function () {
 							$$('merchants_win').hide();
 							webix.html.removeCss($$("merchants_button").$view, "active");
@@ -510,6 +521,9 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Accounting",
+                         function () {
+                            openNewWindow("accounting");
+						},
 						function () {
 							$$('accounting_win').hide();
 							webix.html.removeCss($$("accounting_button").$view, "active");
@@ -546,6 +560,9 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Delivered and Rejected Orders",
+                         function () {
+                            openNewWindow("deliveredAndRejectedOrders");
+						},
 						function () {
 							$$('deliveredAndRejectedOrders_win').hide();
 							webix.html.removeCss($$("deliveredAndRejectedOrders_button").$view, "active");
@@ -582,6 +599,9 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Filemanager",
+                         function () {
+                            openNewWindow("filemanager");
+						},
 						function () {
 							$$('filemanager_win').hide();
 							webix.html.removeCss($$("filemanager_button").$view, "active");
@@ -717,10 +737,4 @@ let userAction = (filepath) => {
 //        
 //		})
 }
-let openaNewWindow = function(obj) {
-    console.log("in open a new window")
-//    desktopApp.wins.showApp;
-    console.log(obj);
-     let newWindow = window.open(window.location.href.split('?')[0] + '?app='+ obj);
-    newWindow.focus();
-}
+
