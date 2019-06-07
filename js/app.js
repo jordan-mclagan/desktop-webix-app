@@ -65,8 +65,9 @@ desktopApp = {
 				onMenuItemClick: function(id){
 //                    console.log(window.location.href);
                     if(submenuData.includes(id)) {
-                        let newWindow = window.open(window.location.href + '?app=aceeditor');
-                        newWindow.focus();
+//                        let newWindow = window.open(window.location.href + '?app=aceeditor');
+//                        newWindow.focus();
+                        desktopApp.wins.showApp("aceeditor");
                     }
 
 					var context = this.getContext();
@@ -554,6 +555,7 @@ desktopApp = {
 };
 
 let openNewWindow = function(obj) {
+    console.log('in the open new window function');
 //    desktopApp.wins.showApp;
     console.log(obj);
      let newWindow = window.open(window.location.href.split('?')[0] + '?app='+ obj);

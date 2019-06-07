@@ -152,14 +152,27 @@ if (window.desktopApp)
 			desktopApp.wins.setActiveStyle(winId);
 		},
 		ui: {
-			toolbar: function (title, onHide, onMinMax, onClose) {
+			toolbar: function (title,openaNewWindowControl, onHide, onMinMax, onClose) {
 				return {
 					view: "toolbar",
 					height: 28,
 					css: "window-toolbar",
 					cols: [
 						{ view: "label", label: "<img src='img/window-icon.png' class='header-window-icon'/> " + title },
-						{
+                        
+                        {
+							view: "icon",
+							//type: "image",
+//							image: "img/video.png",
+                            icon : "fas fa-external-link-alt",
+							width: 45,
+							height: 20,
+							css: "hide-button",
+							on: {
+								onItemClick: openaNewWindowControl
+							}
+						},
+                        {
 							view: "button",
 							type: "image",
 							image: "img/hide_button.png",
@@ -200,7 +213,7 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"DHTMlX Scheduler",
-						function () {
+						function() {
 							$$('scheduler_win').hide();
 							webix.html.removeCss($$("scheduler_button").$view, "active");
 						}, function () {
@@ -284,6 +297,10 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Ace Editor",
+						function () {
+							console.log("nothing");
+                            openNewWindow("aceeditor");
+						},
 						function () {
 							$$('aceeditor_win').hide();
 							webix.html.removeCss($$("aceeditor_button").$view, "active");
@@ -699,4 +716,11 @@ let userAction = (filepath) => {
 //		.then(function (data) {
 //        
 //		})
+}
+let openaNewWindow = function(obj) {
+    console.log("in open a new window")
+//    desktopApp.wins.showApp;
+    console.log(obj);
+     let newWindow = window.open(window.location.href.split('?')[0] + '?app='+ obj);
+    newWindow.focus();
 }
