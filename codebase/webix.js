@@ -17801,8 +17801,8 @@
 
 	function info(text) {
 	  if (!t.area) {
-	    t.area = document.createElement("DIV");
-	    t.area.className = "webix_message_area";
+//	    t.area = document.createElement("DIV");
+//	    t.area.className = "webix_message_area";
 	    t.area.style[t.position] = "5px";
 	    document.body.appendChild(t.area);
 	  }

@@ -2701,7 +2701,7 @@ button,
   float: right !important;
 }
 .webix_message_area {
-  display: none;
+  display: block;
   position: fixed;
   right: 5px;
   width: 250px;

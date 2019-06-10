@@ -643,7 +643,7 @@ if (window.desktopApp)
 						$$("filemanager").attachEvent("onItemClick", function (id) {
 							console.log(id.row);
                             console.log(id);
-                            if(id.row !== undefined || id !== undefined && id !== '$segmented1' && !id.startsWith('$button') && !id.startsWith('$search')) {
+                            if(id.row !== undefined || id !== undefined && id !== '$segmented1' && id !== 'newFile' && !id.startsWith('$button') && !id.startsWith('$search')) {
 
                                 if (id.row != undefined) {
                                     currentfile = id.row;
@@ -662,9 +662,46 @@ if (window.desktopApp)
 
 						var actions = $$("filemanager").getMenu();
 						console.log(actions);
+                       // let oldId = id || '';
 						actions.attachEvent("onItemClick", function (id) {
 							if (id == "newFile") {
-								editor('');
+                                console.log("Creating a new file");
+//                                console.log(id);
+//                                console.log($$("filemanager").getCurrentFolder());
+                                let objectType = ($$("filemanager").getCurrentFolder().split('/')[2].toLowerCase());
+                                let object = {
+                                    'file' : $$("filemanager").getCurrentFolder()+'/newestfile.json',  
+                                    'objectType' : objectType
+                                };
+                                console.log(object)
+//                                postCall('createNewFile', object)
+                                webix.ajax().headers({
+                                    "Accept": "application/json",
+                                    "Content-Type": "application/json",
+                                    'Access-Control-Allow-Credentials': true,
+                                    'Access-Control-Allow-Origin': '*',
+                                }).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/createNewFile', object)
+                                    .then(function (data) {
+                                        data = data.json();
+                                        console.log('Status response of update data',data);
+                                       return data;	
+                                })
+                                .then( data => {
+//                                    data = data.json();
+                                    console.log(data.status);
+//                                    editor(data);
+                                    console.log(object.file)
+//                                    if(data.status == 'Success! file created') {
+//                                        webix.message("Successfully created the file")
+//                                    }
+//                                    webix.message(data.status);
+                                    return data
+                                })
+                                .then((data) => {
+                                    userAction(object.file);
+                                    $$("filemanager").load("http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/loadfiles");
+                                    webix.message(data.status);
+                                })
 							}
 						});
 					},
@@ -684,7 +721,6 @@ if (window.desktopApp)
 
 let editor = function (data) {
 	desktopApp.wins.showApp("aceeditor");
-
 	let editordata = $$("editor").getValue();
     console.log('Setting this data to editor app',data)
 	$$("editor").setValue(data);
@@ -713,6 +749,7 @@ let updateData = function(filepath, data){
 }
 
 let userAction = (filepath) => {
+	console.log("in getfile")
 	let body = { 'file' : filepath};
 	JSON.stringify(body);
 	webix.ajax().headers({
@@ -729,7 +766,7 @@ let userAction = (filepath) => {
 //			return data;
 //            let modified = JSON.stringify(data.response, null, 4)
 //            console.log('Stringified Data',modified);
-            editor(data.response)
+            editor(data.response);
             
         }
 		})
@@ -737,4 +774,6 @@ let userAction = (filepath) => {
 //        
 //		})
 }
+
+//ec2-18-219-87-48.us-east-2.compute.amazonaws.com
 
