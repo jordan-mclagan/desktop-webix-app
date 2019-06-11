@@ -152,19 +152,19 @@ if (window.desktopApp)
 			desktopApp.wins.setActiveStyle(winId);
 		},
 		ui: {
-			toolbar: function (title,openaNewWindowControl, onHide, onMinMax, onClose) {
+			toolbar: function (title, openaNewWindowControl, onHide, onMinMax, onClose) {
 				return {
 					view: "toolbar",
 					height: 28,
 					css: "window-toolbar",
 					cols: [
 						{ view: "label", label: "<img src='img/window-icon.png' class='header-window-icon'/> " + title },
-                        
-                        {
+
+						{
 							view: "icon",
 							//type: "image",
-//							image: "img/video.png",
-                            icon : "fas fa-external-link-alt",
+							//							image: "img/video.png",
+							icon: "fas fa-external-link-alt",
 							width: 45,
 							height: 20,
 							css: "hide-button",
@@ -172,7 +172,7 @@ if (window.desktopApp)
 								onItemClick: openaNewWindowControl
 							}
 						},
-                        {
+						{
 							view: "button",
 							type: "image",
 							image: "img/hide_button.png",
@@ -213,7 +213,7 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"DHTMlX Scheduler",
-						function() {
+						function () {
 							$$('scheduler_win').hide();
 							webix.html.removeCss($$("scheduler_button").$view, "active");
 						}, function () {
@@ -298,7 +298,7 @@ if (window.desktopApp)
 					return [
 						"Ace Editor",
 						function () {
-                            openNewWindow("aceeditor");
+							openNewWindow("aceeditor");
 						},
 						function () {
 							$$('aceeditor_win').hide();
@@ -310,23 +310,23 @@ if (window.desktopApp)
 
 							aceeditor.render();
 						}, function () {
-                            let finalData  = $$('editor').getValue();
+							let finalData = $$('editor').getValue();
 							console.log(currentfile);
-                            if(currentfile !== undefined){
-                                if(Object.is(initialData, finalData)) {
-                                    console.log("No change in data");
-                                } else {
-                                    console.log("Change in data");
-                                    updateData(currentfile, finalData);
-                                }
-                            }
+							if (currentfile !== undefined) {
+								if (Object.is(initialData, finalData)) {
+									console.log("No change in data");
+								} else {
+									console.log("Change in data");
+									updateData(currentfile, finalData);
+								}
+							}
 
-//							if($$('editor').getEditor().getSession().on("change", function () {
-//								// textarea.val(editor.getSession().getValue())
-//								console.log("value changed");
-//							}));
-                            $$('editor').setValue('');
-                            currentfile = undefined;
+							//							if($$('editor').getEditor().getSession().on("change", function () {
+							//								// textarea.val(editor.getSession().getValue())
+							//								console.log("value changed");
+							//							}));
+							$$('editor').setValue('');
+							currentfile = undefined;
 							$$("toolbar").removeView("aceeditor_button");
 							$$('aceeditor_win').hide();
 							desktopApp.buttonCount--;
@@ -335,7 +335,7 @@ if (window.desktopApp)
 				},
 				body: function (editorValue) {
 					console.log("This is editor value", editorValue);
-//					editorValue = editorValue || '';
+					//					editorValue = editorValue || '';
 					return {
 
 						id: "editor",
@@ -367,8 +367,8 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Orders",
-                        function () {
-                            openNewWindow("orders");
+						function () {
+							openNewWindow("orders");
 						},
 						function () {
 							$$('orders_win').hide();
@@ -405,8 +405,8 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Recipes",
-                         function () {
-                            openNewWindow("recipes");
+						function () {
+							openNewWindow("recipes");
 						},
 						function () {
 							$$('recipes_win').hide();
@@ -443,8 +443,8 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"CRM",
-                         function () {
-                            openNewWindow("crm");
+						function () {
+							openNewWindow("crm");
 						},
 						function () {
 							$$('crm_win').hide();
@@ -482,8 +482,8 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Merchants",
-                         function () {
-                            openNewWindow("merchants");
+						function () {
+							openNewWindow("merchants");
 						},
 						function () {
 							$$('merchants_win').hide();
@@ -521,8 +521,8 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Accounting",
-                         function () {
-                            openNewWindow("accounting");
+						function () {
+							openNewWindow("accounting");
 						},
 						function () {
 							$$('accounting_win').hide();
@@ -560,8 +560,8 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Delivered and Rejected Orders",
-                         function () {
-                            openNewWindow("deliveredAndRejectedOrders");
+						function () {
+							openNewWindow("deliveredAndRejectedOrders");
 						},
 						function () {
 							$$('deliveredAndRejectedOrders_win').hide();
@@ -599,8 +599,8 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Filemanager",
-                         function () {
-                            openNewWindow("filemanager");
+						function () {
+							openNewWindow("filemanager");
 						},
 						function () {
 							$$('filemanager_win').hide();
@@ -642,17 +642,17 @@ if (window.desktopApp)
 
 						$$("filemanager").attachEvent("onItemClick", function (id) {
 							console.log(id.row);
-                            console.log(id);
-                            if(id.row !== undefined || id !== undefined && id !== '$segmented1' && id !== 'newFile' && !id.startsWith('$button') && !id.startsWith('$search')) {
+							console.log(id);
+							if (id.row !== undefined || id !== undefined && id !== '$segmented1' && id !== 'newFile' && !id.startsWith('$button') && !id.startsWith('$search')) {
 
-                                if (id.row != undefined) {
-                                    currentfile = id.row;
-                                    userAction(id.row);
-                                } else {
-                                    currentfile = id;
-                                    userAction(id);
-                                }                     
-                            }
+								if (id.row != undefined) {
+									currentfile = id.row;
+									userAction(id.row);
+								} else {
+									currentfile = id;
+									userAction(id);
+								}
+							}
 						})
 					},
 					onShow: function () {
@@ -662,51 +662,14 @@ if (window.desktopApp)
 
 						var actions = $$("filemanager").getMenu();
 						console.log(actions);
-                       // let oldId = id || '';
 						actions.attachEvent("onItemClick", function (id) {
 							if (id == "newFile") {
-                                console.log("Creating a new file");
-//                                console.log(id);
-//                                console.log($$("filemanager").getCurrentFolder());
-                                let objectType = ($$("filemanager").getCurrentFolder().split('/')[2].toLowerCase());
-                                let object = {
-                                    'file' : $$("filemanager").getCurrentFolder()+'/newestfile.json',  
-                                    'objectType' : objectType
-                                };
-                                console.log(object)
-//                                postCall('createNewFile', object)
-                                webix.ajax().headers({
-                                    "Accept": "application/json",
-                                    "Content-Type": "application/json",
-                                    'Access-Control-Allow-Credentials': true,
-                                    'Access-Control-Allow-Origin': '*',
-                                }).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/createNewFile', object)
-                                    .then(function (data) {
-                                        data = data.json();
-                                        console.log('Status response of update data',data);
-                                       return data;	
-                                })
-                                .then( data => {
-//                                    data = data.json();
-                                    console.log(data.status);
-//                                    editor(data);
-                                    console.log(object.file)
-//                                    if(data.status == 'Success! file created') {
-//                                        webix.message("Successfully created the file")
-//                                    }
-//                                    webix.message(data.status);
-                                    return data
-                                })
-                                .then((data) => {
-                                    userAction(object.file);
-                                    $$("filemanager").load("http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/loadfiles");
-                                    webix.message(data.status);
-                                })
+								console.log("Creating a new file");
+								filenamePopup();
 							}
 						});
 					},
 					onItemSelect: function (id) {
-						//                        console.log(value, id, type);
 						console.log(id);
 					},
 
@@ -715,28 +678,28 @@ if (window.desktopApp)
 					},
 
 				}
-			}
+			},
 		}
 	};
 
 let editor = function (data) {
 	desktopApp.wins.showApp("aceeditor");
 	let editordata = $$("editor").getValue();
-    console.log('Setting this data to editor app',data)
+	console.log('Setting this data to editor app', data)
 	$$("editor").setValue(data);
 }
 
-let updateData = function(filepath, data){
-    console.log(filepath);
-    console.log(data);
-    currentfile = filepath;
-    let body = { 
-        'file'  : filepath,
-        'data'  : data,
-    };
+let updateData = function (filepath, data) {
+	console.log(filepath);
+	console.log(data);
+	currentfile = filepath;
+	let body = {
+		'file': filepath,
+		'data': data,
+	};
 	JSON.stringify(body);
 
-    webix.ajax().headers({
+	webix.ajax().headers({
 		"Accept": "application/json",
 		"Content-Type": "application/json",
 		'Access-Control-Allow-Credentials': true,
@@ -744,13 +707,13 @@ let updateData = function(filepath, data){
 	}).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/updateFile', body)
 		.then(function (data) {
 			data = data.json();
-			console.log('Status response of update data',data);
-		})    
+			console.log('Status response of update data', data);
+		})
 }
 
 let userAction = (filepath) => {
 	console.log("in getfile")
-	let body = { 'file' : filepath};
+	let body = { 'file': filepath };
 	JSON.stringify(body);
 	webix.ajax().headers({
 		"Accept": "application/json",
@@ -760,20 +723,52 @@ let userAction = (filepath) => {
 	}).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/getFile', body)
 		.then(function (data) {
 			data = data.json();
-        if(data.response.status != 'fail') {
-			console.log('initial data response from server',data);
-            initialData = data;
-//			return data;
-//            let modified = JSON.stringify(data.response, null, 4)
-//            console.log('Stringified Data',modified);
-            editor(data.response);
-            
-        }
+			if (data.response.status != 'fail') {
+				console.log('initial data response from server', data);
+				initialData = data;
+				//			return data;
+				//            let modified = JSON.stringify(data.response, null, 4)
+				//            console.log('Stringified Data',modified);
+				editor(data.response);
+
+			}
 		})
-//		.then(function (data) {
-//        
-//		})
+	//		.then(function (data) {
+	//        
+	//		})
 }
 
 //ec2-18-219-87-48.us-east-2.compute.amazonaws.com
+
+let createNewFile = (filenameentered) => {
+	console.log(filenameentered);
+	let objectType = ($$("filemanager").getCurrentFolder().split('/')[2].toLowerCase());
+	let object = {
+		'file': $$("filemanager").getCurrentFolder() + '/' + filenameentered + '.json',
+		'objectType': objectType
+	};
+	console.log(object)
+    currentfile = object.file;
+	webix.ajax().headers({
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		'Access-Control-Allow-Credentials': true,
+		'Access-Control-Allow-Origin': '*',
+	}).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/createNewFile', object)
+		.then(function (data) {
+			data = data.json();
+			console.log('Status response of update data', data);
+			return data;
+		})
+		.then(data => {
+			console.log(data.status);
+			console.log(object.file)
+			return data
+		})
+		.then((data) => {
+			userAction(object.file);
+			$$("filemanager").load("http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/loadfiles");
+			webix.message(data.status);
+		})
+}
 
