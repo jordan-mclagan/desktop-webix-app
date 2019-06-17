@@ -138,7 +138,7 @@ if (window.desktopApp)
 					toFront: true,
 					height: 450,
 					width: 800,
-					head: desktopApp.wins.ui.toolbar.apply(this, config.toolbar()),
+					head: (name !== 'aceeditor' ? desktopApp.wins.ui.toolbar.apply(this, config.toolbar()) : desktopApp.wins.ui.acetoolbar.apply(this, config.toolbar())),
 					body: config.body(attribute),
 					on: config.events
 				});
@@ -160,6 +160,108 @@ if (window.desktopApp)
 					cols: [
 						{ view: "label", label: "<img src='img/window-icon.png' class='header-window-icon'/> " + title },
 
+						{
+							view: "icon",
+							//type: "image",
+							//							image: "img/video.png",
+							icon: "fas fa-external-link-alt",
+							width: 45,
+							height: 20,
+							css: "hide-button",
+							on: {
+								onItemClick: openaNewWindowControl
+							}
+						},
+						{
+							view: "button",
+							type: "image",
+							image: "img/hide_button.png",
+							width: 45,
+							height: 20,
+							css: "hide-button",
+							on: {
+								onItemClick: onHide
+							}
+						},
+						{
+							view: "button",
+							type: "image",
+							image: "img/resize_button.png",
+							width: 45,
+							height: 20,
+							css: "resize-button",
+							on: {
+								onItemClick: onMinMax
+							}
+						},
+						{
+							view: "button",
+							type: "image",
+							image: "img/close_button.png",
+							width: 45,
+							height: 20,
+							css: "close-button",
+							on: {
+								onItemClick: onClose
+							}
+						}
+					]
+				};
+			},
+            acetoolbar : function (title, commitfile, savefile, openaNewWindowControl, onHide, onMinMax, onClose) {
+				return {
+					view: "toolbar",
+					height: 28,
+					css: "window-toolbar",
+					cols: [
+						{ view: "label", label: "<img src='img/window-icon.png' class='header-window-icon'/> " + title },
+                        
+                        
+                        (commitValidator() == true ?  ({
+							view: "button",
+							type: "image",
+							image: "img/camera.png",
+							width: 45,
+							height: 20,
+							css: "hide-button",
+							on: {
+								onItemClick: commitfile
+							}
+						}) :  ({
+							view: "button",
+							type: "image",
+							image: "img/games.png",
+							width: 45,
+							height: 20,
+							css: "hide-button",
+							on: {
+								onItemClick: commitfile
+							}
+						}))
+//                        {
+//							view: "button",
+//							type: "image",
+//							image: "img/camera.png",
+//							width: 45,
+//							height: 20,
+//							css: "hide-button",
+//							on: {
+//								onItemClick: commitfile
+//							}
+//						},
+                         ,
+                        {
+							view: "button",
+							type: "image",
+							image: "img/music.png",
+							width: 45,
+							height: 20,
+							css: "hide-button",
+							on: {
+								onItemClick: savefile
+							}
+						},
+                        
 						{
 							view: "icon",
 							//type: "image",
@@ -297,6 +399,40 @@ if (window.desktopApp)
 				toolbar: function () {
 					return [
 						"Ace Editor",
+                        function () {
+                            if(commitValidator()) {
+//							openNewWindow("aceeditor");
+                            console.log(currentfile);
+                            console.log("We are about to commit a file");
+                            let finalData = $$('editor').getValue();
+							console.log(currentfile);
+							if (currentfile !== undefined) {
+								if (Object.is(initialData, finalData)) {
+									console.log("No change in data");
+								} else {
+									console.log("Change in data");
+									updateData(currentfile, finalData);
+								}
+                                commitFile(currentfile);
+							}
+                            } else {
+                                webix.message("Not valid structure")
+                            }
+						},
+                        function() {
+                            let finalData = $$('editor').getValue();
+							console.log(currentfile);
+							if (currentfile !== undefined) {
+								if (Object.is(initialData, finalData)) {
+									console.log("No change in data");
+								} else {
+									console.log("Change in data");
+									updateData(currentfile, finalData);
+								}
+							}
+                            webix.message("File is not commited");
+                        },
+                        
 						function () {
 							openNewWindow("aceeditor");
 						},
@@ -770,5 +906,27 @@ let createNewFile = (filenameentered) => {
 			$$("filemanager").load("http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/loadfiles");
 			webix.message(data.status);
 		})
+}
+
+let commitFile = (filepath) =>{
+    let object = {
+		'filePath': filepath,
+	};
+	console.log(object)
+	webix.ajax().headers({
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		'Access-Control-Allow-Credentials': true,
+		'Access-Control-Allow-Origin': '*',
+	}).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/commitFile', object)
+		.then(function (data) {
+			data = data.json();
+			console.log('Status response of update data', data);
+			return data;
+		})
+}
+
+let commitValidator = () => {
+    return false;
 }
 
