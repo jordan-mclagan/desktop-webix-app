@@ -9,7 +9,7 @@
     "watch": "rollup -c ./rollup.config.js -w",
     "server": "node backend/index.js"
   },
-  "private":true,
+  "private": true,
   "homepage": "https://webix.com",
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -22,7 +22,6 @@
     "rollup-plugin-license": "^0.7.0",
     "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-uglify": "^6.0.0",
-
     "apollo-server-express": "^2.2.2",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
@@ -33,5 +32,9 @@
     "graphql": "^14.0.2",
     "nedb": "^1.8.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "busboy": "^0.2.14",
+    "express": "^4.17.1",
+    "wfs-local": "^0.3.0"
+  }
 }

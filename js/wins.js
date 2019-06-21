@@ -67,6 +67,7 @@ if (window.desktopApp)
 
 			if (!$$(winId)) {
 				var c = desktopApp.wins.getVisibleWinCount();
+                console.log(winId);
 
 				webix.ui({
 					view: "window",
@@ -402,19 +403,8 @@ if (window.desktopApp)
                         function () {
                             if(commitValidator()) {
 //							openNewWindow("aceeditor");
-                            console.log(currentfile);
-                            console.log("We are about to commit a file");
-                            let finalData = $$('editor').getValue();
-							console.log(currentfile);
-							if (currentfile !== undefined) {
-								if (Object.is(initialData, finalData)) {
-									console.log("No change in data");
-								} else {
-									console.log("Change in data");
-									updateData(currentfile, finalData);
-								}
-                                commitFile(currentfile);
-							}
+                            getCommitMessage();
+                            
                             } else {
                                 webix.message("Not valid structure")
                             }
@@ -423,7 +413,7 @@ if (window.desktopApp)
                             let finalData = $$('editor').getValue();
 							console.log(currentfile);
 							if (currentfile !== undefined) {
-								if (Object.is(initialData, finalData)) {
+								if (Object.is(initialData.response, finalData)) {
 									console.log("No change in data");
 								} else {
 									console.log("Change in data");
@@ -446,16 +436,24 @@ if (window.desktopApp)
 
 							aceeditor.render();
 						}, function () {
-							let finalData = $$('editor').getValue();
+                            let finalData = $$('editor').getValue();
 							console.log(currentfile);
+                            console.log(initialData);
+                            if(initialData == undefined){
+                                initialData = {
+                                    response : '',
+                                }
+                            }
 							if (currentfile !== undefined) {
-								if (Object.is(initialData, finalData)) {
+								if (Object.is(initialData.response, finalData)) {
 									console.log("No change in data");
 								} else {
 									console.log("Change in data");
 									updateData(currentfile, finalData);
 								}
 							}
+                            
+							
 
 							//							if($$('editor').getEditor().getSession().on("change", function () {
 							//								// textarea.val(editor.getSession().getValue())
@@ -466,6 +464,8 @@ if (window.desktopApp)
 							$$("toolbar").removeView("aceeditor_button");
 							$$('aceeditor_win').hide();
 							desktopApp.buttonCount--;
+                            
+//                            closingPopup();
 						}
 					]
 				},
@@ -690,6 +690,44 @@ if (window.desktopApp)
 
 				}
 			},
+            
+            appstore: {
+				toolbar: function () {
+					return [
+						"App Store",
+						function () {
+							openNewWindow("appstore");
+						},
+						function () {
+							$$('appstore_win').hide();
+							webix.html.removeCss($$("appstore_button").$view, "active");
+						},
+						function () {
+							$$("appstore_win").config.fullscreen = !$$("appstore_win").config.fullscreen;
+							$$("appstore_win").resize();
+
+							recipes.render();
+						}, function () {
+							$$("toolbar").removeView("appstore_button");
+							$$('appstore_win').hide();
+							desktopApp.buttonCount--;
+						}
+					]
+				},
+				body: function () {
+					return {
+						id: "frame",
+						view: "iframe",
+						src: "http://groctaurantretail.com/admin/zxy321/recipe.php", // code string
+					}
+				},
+				events: {
+					onBeforeShow: function () {
+						desktopApp.beforeWinShow("appstore");
+					},
+
+				}
+			},
 
 
 			deliveredAndRejectedOrders: {
@@ -748,7 +786,8 @@ if (window.desktopApp)
 
 						}, function () {
 							$$("toolbar").removeView("filemanager_button");
-							$$('filemanager_win').hide();
+//							$$('filemanager_win').hide();
+                            $$('filemanager_win').close();
 							desktopApp.buttonCount--;
 						}
 					]
@@ -760,9 +799,17 @@ if (window.desktopApp)
 						id: "filemanager",
 						disabledHistory: true,
 					}
+            
 					return filemanagerobject;
 				},
+
 				events: {
+//                    on: {
+//      onItemClick: function(id){ 
+//              console.log("success")
+//       }
+//},
+
 					onBeforeShow: function () {
 						desktopApp.beforeWinShow("filemanager");
 						var actions = $$("filemanager").getMenu();
@@ -801,7 +848,7 @@ if (window.desktopApp)
 						actions.attachEvent("onItemClick", function (id) {
 							if (id == "newFile") {
 								console.log("Creating a new file");
-								filenamePopup();
+								filenamePopup('filemanager');
 							}
 						});
 					},
@@ -866,8 +913,7 @@ let userAction = (filepath) => {
 				//            let modified = JSON.stringify(data.response, null, 4)
 				//            console.log('Stringified Data',modified);
 				editor(data.response);
-
-			}
+            }
 		})
 	//		.then(function (data) {
 	//        
@@ -876,13 +922,14 @@ let userAction = (filepath) => {
 
 //ec2-18-219-87-48.us-east-2.compute.amazonaws.com
 
-let createNewFile = (filenameentered) => {
+let createNewFile = (filenameentered, object) => {
+//                initialData.response = "";
 	console.log(filenameentered);
-	let objectType = ($$("filemanager").getCurrentFolder().split('/')[2].toLowerCase());
-	let object = {
-		'file': $$("filemanager").getCurrentFolder() + '/' + filenameentered + '.json',
-		'objectType': objectType
-	};
+//	let objectType = ($$("filemanager").getCurrentFolder().split('/')[2].toLowerCase());
+//	let object = {
+//		'file': $$("filemanager").getCurrentFolder() + '/' + filenameentered + '.json',
+//		'objectType': objectType
+//	};
 	console.log(object)
     currentfile = object.file;
 	webix.ajax().headers({
@@ -908,9 +955,10 @@ let createNewFile = (filenameentered) => {
 		})
 }
 
-let commitFile = (filepath) =>{
+let commitFile = (filepath, commitMessage) =>{
     let object = {
 		'filePath': filepath,
+        'commitMessage' : commitMessage,
 	};
 	console.log(object)
 	webix.ajax().headers({
@@ -922,11 +970,122 @@ let commitFile = (filepath) =>{
 		.then(function (data) {
 			data = data.json();
 			console.log('Status response of update data', data);
-			return data;
+			if(data.CommitId !== undefined) {
+                console.log('here');
+                webix.message("Successfully Commited")
+            }
+            return data;
+            
 		})
 }
 
 let commitValidator = () => {
-    return false;
+    return true;
 }
 
+function closingPopup() {
+//	return new webix.promise(function (success, fail) {
+		let filenameentered;
+		webix.ui({
+			view: "window",
+			head: "Save the file",
+			id: "closing_confirmation_window",
+			body: {
+				view: "form",
+				id: "log_form",
+				width: 300,
+				elements: [
+					{ view: "text", label: "Do you want to save without closing?", name: "closingConfirmation", id: 'closingConfirmation' },
+					{
+						margin: 5, cols: [
+							{
+								view: "button", value: "Save File", css: "webix_primary", click: function (id) {
+//									console.log($$('filename').getValue());
+//									filenameentered = $$('filename').getValue();
+//									$$("file_save_window").close();
+//									console.log(filenameentered);
+//                                    $$('closing_confirmation_window').close();
+//                                     createNewFile(filenameentered);
+                                    console.log(id);
+								}
+							},
+                            {
+								view: "button", value: "Close without Saving", click: function (id) {
+									$$("file_save_window").close();
+									$$("toolbar").removeView("aceeditor_button");
+									$$('aceeditor_win').hide();
+                                    $$('editor').setValue('');
+									desktopApp.buttonCount--;
+								}
+							},
+                            
+							{
+								view: "button", value: "Cancel", click: function (id) {
+									$$("closing_confirmation_window").close();
+								}
+							},
+						]
+					}
+				]
+			}
+		}).show();
+//		success(filenameentered);
+       
+//	});
+}
+
+function getCommitMessage(){
+    let commitmessage;
+ webix.ui({
+			view: "window",
+			head: "Enter Commit Message",
+			id: "commit_message_window",
+			body: {
+				view: "form",
+				id: "log_form",
+				width: 300,
+				elements: [
+					{ view: "text", label: "Message", name: "commitmessage", id: 'commitmessage' },
+					{
+						margin: 5, cols: 
+                        [
+							{
+								view: "button", value: "Save", css: "webix_primary", click: function (id) {
+									console.log($$('commitmessage').getValue());
+									commitmessage = $$('commitmessage').getValue();
+									$$("commit_message_window").close();
+
+                                    console.log(commitmessage);
+                                    makeCommit(commitmessage);
+								}
+							},
+							{
+								view: "button", value: "Cancel", click: function (id) {
+									$$("file_save_window").close();
+									$$("toolbar").removeView("aceeditor_button");
+									$$('aceeditor_win').hide();
+									desktopApp.buttonCount--;
+								}
+							}
+						]
+					}
+				]
+			}
+		}).show();   
+}
+
+function makeCommit(commitmessage) {
+    console.log(currentfile);
+    console.log("We are about to commit a file");
+    let finalData = $$('editor').getValue();
+    console.log(currentfile);
+    if (currentfile !== undefined) {
+        if (Object.is(initialData.response, finalData)) {
+            console.log("No change in data");
+        } else {
+            console.log("Change in data");
+            updateData(currentfile, finalData);
+        }
+        commitFile(currentfile, commitmessage);
+    }
+}

@@ -47,11 +47,11 @@ desktopApp = {
 
 	createContextMenu: function () {
 		let submenuData = [
-			"Dish",
-			"Ingredient",
+			"Dishes",
+			"Ingredients",
 			"Menu",
 			"Packaging",
-			"Recipe",
+			"Recipes",
 		];
 		var contextmenu = webix.ui({
 			id: "contextmenu",
@@ -78,7 +78,7 @@ desktopApp = {
 					let newtab;
 					if (submenuData.includes(id)) {
 						//                        console.log("Inside If loop");
-						filenamePopup();
+						filenamePopup(id);
 					};
 					$$('editor').setValue("Adding a " + id + " file");
 				}
@@ -551,7 +551,7 @@ let openNewWindow = function (obj) {
 	newWindow.focus();
 }
 
-function filenamePopup() {
+function filenamePopup(source) {
 	return new webix.promise(function (success, fail) {
 		let filenameentered;
 		webix.ui({
@@ -565,14 +565,30 @@ function filenamePopup() {
 				elements: [
 					{ view: "text", label: "File Name", name: "filename", id: 'filename' },
 					{
-						margin: 5, cols: [
+						margin: 5, cols: 
+                        [
 							{
 								view: "button", value: "Save", css: "webix_primary", click: function (id) {
 									console.log($$('filename').getValue());
 									filenameentered = $$('filename').getValue();
 									$$("file_save_window").close();
-									console.log(filenameentered);
-                                     createNewFile(filenameentered);
+                                    let postobject;
+                                    if(source == 'filemanager') {
+                                        let objectType = ($$("filemanager").getCurrentFolder().split('/')[2].toLowerCase());
+                                            postobject = {
+                                                'file': $$("filemanager").getCurrentFolder() + '/' + filenameentered + '.json',
+                                                'objectType': objectType
+                                            };
+                                    } else {
+                                        let objectType = source;
+                                            postobject = {
+                                                'file': './filesystem/' + source + '/' + filenameentered + '.json',
+                                                'objectType': objectType
+                                            };
+                                    }
+                                    console.log(filenameentered);
+                                    currentfile =  postobject.file;
+                                    createNewFile(filenameentered, postobject);
 								}
 							},
 							{
@@ -589,6 +605,5 @@ function filenamePopup() {
 			}
 		}).show();
 //		success(filenameentered);
-       
 	});
 }
