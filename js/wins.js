@@ -1,5 +1,7 @@
 let currentfile;
 let initialData;
+let popupdata;
+let newlist;
 if (window.desktopApp)
 	desktopApp.wins = {
 		active: null,
@@ -481,8 +483,156 @@ if (window.desktopApp)
 				},
 				events: {
 					onBeforeShow: function () {
+                    
 						desktopApp.beforeWinShow("aceeditor");
+                        
+                        let editor = $$("editor").getEditor();
+                        getfilesdata();
+                        console.log(popupdata);
+                        let word  = '';
+                        let popupWord = false;
+                        
+                        editor.on("change", function(e){
+                            console.log(e);
+                                if(e.action == 'insert' && e.lines[0] == '@') {
+                                    word = '';
+                                    popupWord = true;
+                                    console.log("Should show dropdown");
+
+//                                    console.log(editor.getCursorPosition())
+                                        var popup = webix.ui({
+                                            view:"popup",
+                                            id:"my_popup",
+                                            height:250,
+                                            width:500,
+                                            move: true,
+                                            body:{
+                                                view:"list",
+                                                id: "popuplist",
+                                                data : popupdata,
+                                                template: "#value# - #id#",
+//                                                    autoheight:true,
+                                                select:true,
+                                                
+//								                onClick:{
+//                                                   console.log("item clicked")
+//                                                }
+                                            }
+
+                                        }).show();
+                                    $$('popuplist').attachEvent("onItemClick", function(id, e, node){
+                                        var item = this.getItem(id);
+                                        console.log(item);
+                                        editor.removeWordLeft();
+                                        editor.removeWordLeft();
+                                        console.log(editor.getCursorPositionScreen());
+                                        editor.session.insert(editor.getCursorPosition(), ' '+ item.value)
+
+
+                                        
+
+                                    }); 
+                                    console.log(popupdata);
+                                }
+                            
+
+                            if(e.action == 'insert' && e.lines[0] == ' ') {
+                                popupWord = false;
+                                newlist = null;
+                            }
+                            if(popupWord == true) {
+                                $$("popuplist").clearAll();
+                                if(e.action == 'insert'){
+//                                    var list = $$("my_popup").getPopup().getList();
+//                                    popupdata = ["nice", 'list'];
+//                                    $$('my_popup').close();
+//                                    console.log('popup closed')
+//                                    console.log(list)
+                                    if(e.lines[0] !== '@') {
+
+                                    word = word + e.lines[0];
+                                    console.log(popupdata);
+                                        
+                                    newpopupdata(word);
+//                                    $$("popuplist").add({value: "new dishes.json"});
+
+                                    }
+                                }
+                                if(e.action == 'remove') {
+                                    if(e.lines[0] != '@') {
+                                    word  = word.substring(0, word.length-1);
+                                    newlist = null;
+                                    newpopupdata(word);
+                                    } else {
+                                        popupWord = false;
+                                        $$('my_popup').close();
+                                        newlist = null;
+                                    }
+                                }
+                                console.log(word);
+                            }
+                        });
+                        
+                        
+                        editor.setOptions({
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
+    enableLiveAutocompletion: true
+});
+                        
+                        
+//                        editor.commands.addCommand({
+//                        name: "dotCommand1",
+//                        bindKey: { win: ".", mac: "." },
+//                        exec: function () {
+//                            var pos = editor.selection.getCursor();
+//                            var session = editor.session;
+//
+//                            var curLine = (session.getDocument().getLine(pos.row)).trim();
+//                            var curTokens = curLine.slice(0, pos.column).split(/\s+/);
+//                            var curCmd = curTokens[0];
+//                            if (!curCmd) return;
+//                            var lastToken = curTokens[curTokens.length - 1];
+//
+//                            editor.insert(".");                
+//
+//                            console.log(pos, session, curLine, curTokens, curCmd,lastToken);
+//                            if (lastToken === "foo") {
+//                                 var wordList = ["baar", "bar", "baz"];
+//                                callback(null, wordList.map(function(word) {
+//                                    return {
+//                                        caption: word,
+//                                        value: word,
+//                                        meta: "static"
+//                                    };
+//                                // Add your words to the list or then insert into the editor using editor.insert()
+//                            }))
+//                        }
+//                        }
+//					});
+                        
+
 					},
+                    
+                    onShow : function () {
+
+                        
+//                        $$("editor").attachEvent("onKeyPress", function(code, e) {
+//                                console.log(code, e);
+//                        });
+                        
+//                          let editor = $$("editor").getEditor();
+//
+//                        editor.on("change", function(e){
+//                                        console.log(e)
+//                                        });
+//                        
+ 
+                        
+
+                    },
+                    
+
 					onKeyPress: function () {
 						console.log("Key Press Occured");
 						console.log($$('editor').getValue());
@@ -836,8 +986,31 @@ if (window.desktopApp)
 									userAction(id);
 								}
 							}
-						})
-					},
+						});
+                        
+
+//                         $$("editor").getEditor().commands.addCommand({
+//                                name: "myCommand",
+//                                bindKey: { win: "@", mac: "@" },
+//                                exec: function (editor) {
+//                                      autocomplete();
+//                                }
+//                         });
+//
+//                          let autocomplete = function () {
+//                                staticWordCompleter = {
+//                                    var getWordList = function(editor, session, pos, prefix, callback, isRHSEditor) {
+//                                    var wordList = ['done','nice']; // add your words to this list
+//
+//                                    callback(null, wordList.map(function(word) {
+//                                        return {
+//                                             caption: word,
+//                                            value: word
+//                                        };
+//                                    }))}};    
+//                                    editor.completers = [staticWordCompleter];
+//                            
+                    },
 					onShow: function () {
 
 						if (!$$("filemanager").$$("tree").getSelectedId())
@@ -1089,3 +1262,77 @@ function makeCommit(commitmessage) {
         commitFile(currentfile, commitmessage);
     }
 }
+
+function getfilesdata () {
+    	webix.ajax().headers({
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		'Access-Control-Allow-Credentials': true,
+		'Access-Control-Allow-Origin': '*',
+	}).get('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/loadfiles')
+		.then(function (data) {
+			data = data.json();
+			console.log(data);
+            return extractFiles(data);
+		})
+}
+
+function extractFiles(files) {
+      var onlyfiles = [];
+
+      getFiles(files, onlyfiles);
+
+
+    //   function getFiles(files) {
+    //   let onlyfiles = files.map(file => {
+    //       if (file.data == undefined) {
+    //           return file.value;
+    //       } else {
+    //           return getFiles(file.data);
+    //       }
+    //   });
+    // //   console.log(onlyfiles)
+    //   return onlyfiles;
+    // }
+
+    function getFiles(files, onlyfiles) {
+        
+        files.forEach(function(file){
+            if (file.data == undefined) {
+                console.log(file);
+                onlyfiles.push({value : file.value,
+                               id : file.id
+                });
+            } else {
+                getFiles(file.data, onlyfiles);
+            }
+        });
+      //   console.log(onlyfiles)
+        // return onlyfiles;
+      }
+//      console.log(onlyfiles);
+    popupdata = onlyfiles;
+//    console.log(onlyfiles)
+    return onlyfiles;
+  
+
+// }
+}
+
+function newpopupdata(word) {
+    if(newlist == undefined || null) {
+        newlist = popupdata;
+    }
+    newlist = newlist.filter(function (entry) {
+  return word === entry.value.substring(0, word.length).toLowerCase();
+});
+//    console.log(newlist)
+    newlist.forEach(entry => {
+        $$("popuplist").add(entry);
+    })  
+    
+    
+//    newlist.
+    
+}
+

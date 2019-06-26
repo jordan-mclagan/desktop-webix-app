@@ -20,6 +20,12 @@
 	<script type="text/javascript" src="./TextEditors/components-master/ace/ace.js"></script>
         <script src="https://kit.fontawesome.com/3e7398fb6d.js"></script>
 
+<!--
+    <link href="css/jquery.atwho.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/jquery.caret.js"></script>
+    <script src="js/jquery.atwho.js"></script>
+-->
 
 	<!-- Material Design Icons -->
 	<link rel="stylesheet" type="text/css" href="//cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.css">
@@ -31,6 +37,23 @@
  <body>
  <script type="text/javascript" charset="utf-8">
 	   desktopApp.init();
+        
+//     $$('editor').addEventListener('keydown', logKey);
+
+function logKey(e) {
+//  log.textContent += ` ${e.code}`;
+//    console.log(e.keyCode)
+//     var keynum;
+//
+//    if(window.event) { // IE                    
+//      keynum = e.keyCode;
+//    } else if(e.which){ // Netscape/Firefox/Opera                   
+//      keynum = e.which;
+//    }
+//
+//    console.log(String.fromCharCode(keynum));
+    console.log(e.key)
+}
 //var iframe = webix.ui({     
 //    view:"iframe", 
 //    id:"frame-body", 

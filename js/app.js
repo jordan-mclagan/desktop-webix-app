@@ -27,9 +27,12 @@ desktopApp = {
 			$$(myParam + "_win").resize();
 
 		}
-
-
-
+        
+//        $$('editor').addEventListener('keydown', logKey);
+//        function logKey(e) {
+//            console.log(e.key);
+//        }
+//        webix.attachEvent("keydown", logKey);
 
 		webix.attachEvent("onFocusChange", function (view) {
 			if (view) {
@@ -43,6 +46,8 @@ desktopApp = {
 				}
 			}
 		});
+        
+//        var eventId = webix.event("ace_editor", "keydown", logKey);
 	},
 
 	createContextMenu: function () {
