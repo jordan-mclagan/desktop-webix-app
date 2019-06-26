@@ -526,10 +526,8 @@ if (window.desktopApp)
                                         editor.removeWordLeft();
                                         editor.removeWordLeft();
                                         console.log(editor.getCursorPositionScreen());
-                                        editor.session.insert(editor.getCursorPosition(), ' '+ item.value)
-
-
-                                        
+                                        editor.session.insert(editor.getCursorPosition(), ' '+ item.value);
+                                        $$('my_popup').close();
 
                                     }); 
                                     console.log(popupdata);
