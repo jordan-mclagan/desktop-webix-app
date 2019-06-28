@@ -486,7 +486,135 @@ if (window.desktopApp)
                     
 						desktopApp.beforeWinShow("aceeditor");
                         
-                        let editor = $$("editor").getEditor();
+//                        let editor = $$("editor").getEditor();
+//                        getfilesdata();
+//                        console.log(popupdata);
+//                        let word  = '';
+//                        let popupWord = false;
+//                        
+//                        editor.on("change", function(e){
+//                            console.log(e);
+//                                if(e.action == 'insert' && e.lines[0] == '@') {
+//                                    word = '';
+//                                    popupWord = true;
+//                                    console.log("Should show dropdown");
+//
+////                                    console.log(editor.getCursorPosition())
+//                                        var popup = webix.ui({
+//                                            view:"popup",
+//                                            id:"my_popup",
+//                                            height:250,
+//                                            width:500,
+//                                            move: true,
+//                                            body:{
+//                                                view:"list",
+//                                                id: "popuplist",
+//                                                data : popupdata,
+//                                                template: "#value# - #id#",
+////                                                    autoheight:true,
+//                                                select:true,
+//                                                
+////								                onClick:{
+////                                                   console.log("item clicked")
+////                                                }
+//                                            }
+//
+//                                        }).show();
+//                                    $$('popuplist').attachEvent("onItemClick", function(id, e, node){
+//                                        var item = this.getItem(id);
+//                                        console.log(item);
+//                                        editor.removeWordLeft();
+//                                        editor.removeWordLeft();
+//                                        console.log(editor.getCursorPositionScreen());
+//                                        editor.session.insert(editor.getCursorPosition(), ' '+ item.value);
+//                                        $$('my_popup').close();
+//
+//                                    }); 
+//                                    console.log(popupdata);
+//                                }
+//                            
+//
+//                            if(e.action == 'insert' && e.lines[0] == ' ') {
+//                                popupWord = false;
+//                                newlist = null;
+//                            }
+//                            if(popupWord == true) {
+//                                $$("popuplist").clearAll();
+//                                if(e.action == 'insert'){
+////                                    var list = $$("my_popup").getPopup().getList();
+////                                    popupdata = ["nice", 'list'];
+////                                    $$('my_popup').close();
+////                                    console.log('popup closed')
+////                                    console.log(list)
+//                                    if(e.lines[0] !== '@') {
+//
+//                                    word = word + e.lines[0];
+//                                    console.log(popupdata);
+//                                        
+//                                    newpopupdata(word);
+////                                    $$("popuplist").add({value: "new dishes.json"});
+//
+//                                    }
+//                                }
+//                                if(e.action == 'remove') {
+//                                    if(e.lines[0] != '@') {
+//                                    word  = word.substring(0, word.length-1);
+//                                    newlist = null;
+//                                    newpopupdata(word);
+//                                    } else {
+//                                        popupWord = false;
+//                                        $$('my_popup').close();
+//                                        newlist = null;
+//                                    }
+//                                }
+//                                console.log(word);
+//                            }
+//                        });
+//                        
+//                        
+//                        editor.setOptions({
+//    enableBasicAutocompletion: true,
+//    enableSnippets: true,
+//    enableLiveAutocompletion: true
+//});
+                        
+                        
+//                        editor.commands.addCommand({
+//                        name: "dotCommand1",
+//                        bindKey: { win: ".", mac: "." },
+//                        exec: function () {
+//                            var pos = editor.selection.getCursor();
+//                            var session = editor.session;
+//
+//                            var curLine = (session.getDocument().getLine(pos.row)).trim();
+//                            var curTokens = curLine.slice(0, pos.column).split(/\s+/);
+//                            var curCmd = curTokens[0];
+//                            if (!curCmd) return;
+//                            var lastToken = curTokens[curTokens.length - 1];
+//
+//                            editor.insert(".");                
+//
+//                            console.log(pos, session, curLine, curTokens, curCmd,lastToken);
+//                            if (lastToken === "foo") {
+//                                 var wordList = ["baar", "bar", "baz"];
+//                                callback(null, wordList.map(function(word) {
+//                                    return {
+//                                        caption: word,
+//                                        value: word,
+//                                        meta: "static"
+//                                    };
+//                                // Add your words to the list or then insert into the editor using editor.insert()
+//                            }))
+//                        }
+//                        }
+//					});
+                        
+
+					},
+                    
+                    onShow : function () {
+
+                         let editor = $$("editor").getEditor();
                         getfilesdata();
                         console.log(popupdata);
                         let word  = '';
@@ -577,43 +705,6 @@ if (window.desktopApp)
     enableSnippets: true,
     enableLiveAutocompletion: true
 });
-                        
-                        
-//                        editor.commands.addCommand({
-//                        name: "dotCommand1",
-//                        bindKey: { win: ".", mac: "." },
-//                        exec: function () {
-//                            var pos = editor.selection.getCursor();
-//                            var session = editor.session;
-//
-//                            var curLine = (session.getDocument().getLine(pos.row)).trim();
-//                            var curTokens = curLine.slice(0, pos.column).split(/\s+/);
-//                            var curCmd = curTokens[0];
-//                            if (!curCmd) return;
-//                            var lastToken = curTokens[curTokens.length - 1];
-//
-//                            editor.insert(".");                
-//
-//                            console.log(pos, session, curLine, curTokens, curCmd,lastToken);
-//                            if (lastToken === "foo") {
-//                                 var wordList = ["baar", "bar", "baz"];
-//                                callback(null, wordList.map(function(word) {
-//                                    return {
-//                                        caption: word,
-//                                        value: word,
-//                                        meta: "static"
-//                                    };
-//                                // Add your words to the list or then insert into the editor using editor.insert()
-//                            }))
-//                        }
-//                        }
-//					});
-                        
-
-					},
-                    
-                    onShow : function () {
-
                         
 //                        $$("editor").attachEvent("onKeyPress", function(code, e) {
 //                                console.log(code, e);
