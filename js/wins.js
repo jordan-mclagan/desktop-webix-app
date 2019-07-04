@@ -69,7 +69,7 @@ if (window.desktopApp)
 
 			if (!$$(winId)) {
 				var c = desktopApp.wins.getVisibleWinCount();
-                console.log(winId);
+				console.log(winId);
 
 				webix.ui({
 					view: "window",
@@ -155,782 +155,19 @@ if (window.desktopApp)
 			desktopApp.wins.setActiveStyle(winId);
 		},
 		ui: {
-			toolbar: function (title, openaNewWindowControl, onHide, onMinMax, onClose) {
-				return {
-					view: "toolbar",
-					height: 28,
-					css: "window-toolbar",
-					cols: [
-						{ view: "label", label: "<img src='img/window-icon.png' class='header-window-icon'/> " + title },
 
-						{
-							view: "icon",
-							//type: "image",
-							//							image: "img/video.png",
-							icon: "fas fa-external-link-alt",
-							width: 45,
-							height: 20,
-							css: "hide-button",
-							on: {
-								onItemClick: openaNewWindowControl
-							}
-						},
-						{
-							view: "button",
-							type: "image",
-							image: "img/hide_button.png",
-							width: 45,
-							height: 20,
-							css: "hide-button",
-							on: {
-								onItemClick: onHide
-							}
-						},
-						{
-							view: "button",
-							type: "image",
-							image: "img/resize_button.png",
-							width: 45,
-							height: 20,
-							css: "resize-button",
-							on: {
-								onItemClick: onMinMax
-							}
-						},
-						{
-							view: "button",
-							type: "image",
-							image: "img/close_button.png",
-							width: 45,
-							height: 20,
-							css: "close-button",
-							on: {
-								onItemClick: onClose
-							}
-						}
-					]
-				};
-			},
-            acetoolbar : function (title, commitfile, savefile, openaNewWindowControl, onHide, onMinMax, onClose) {
-				return {
-					view: "toolbar",
-					height: 28,
-					css: "window-toolbar",
-					cols: [
-						{ view: "label", label: "<img src='img/window-icon.png' class='header-window-icon'/> " + title },
-                        
-                        
-                        (commitValidator() == true ?  ({
-							view: "button",
-							type: "image",
-							image: "img/camera.png",
-							width: 45,
-							height: 20,
-							css: "hide-button",
-							on: {
-								onItemClick: commitfile
-							}
-						}) :  ({
-							view: "button",
-							type: "image",
-							image: "img/games.png",
-							width: 45,
-							height: 20,
-							css: "hide-button",
-							on: {
-								onItemClick: commitfile
-							}
-						}))
-//                        {
-//							view: "button",
-//							type: "image",
-//							image: "img/camera.png",
-//							width: 45,
-//							height: 20,
-//							css: "hide-button",
-//							on: {
-//								onItemClick: commitfile
-//							}
-//						},
-                         ,
-                        {
-							view: "button",
-							type: "image",
-							image: "img/music.png",
-							width: 45,
-							height: 20,
-							css: "hide-button",
-							on: {
-								onItemClick: savefile
-							}
-						},
-                        
-						{
-							view: "icon",
-							//type: "image",
-							//							image: "img/video.png",
-							icon: "fas fa-external-link-alt",
-							width: 45,
-							height: 20,
-							css: "hide-button",
-							on: {
-								onItemClick: openaNewWindowControl
-							}
-						},
-						{
-							view: "button",
-							type: "image",
-							image: "img/hide_button.png",
-							width: 45,
-							height: 20,
-							css: "hide-button",
-							on: {
-								onItemClick: onHide
-							}
-						},
-						{
-							view: "button",
-							type: "image",
-							image: "img/resize_button.png",
-							width: 45,
-							height: 20,
-							css: "resize-button",
-							on: {
-								onItemClick: onMinMax
-							}
-						},
-						{
-							view: "button",
-							type: "image",
-							image: "img/close_button.png",
-							width: 45,
-							height: 20,
-							css: "close-button",
-							on: {
-								onItemClick: onClose
-							}
-						}
-					]
-				};
-			},
-			scheduler: {
-				css: "no_border",
-				toolbar: function () {
-					return [
-						"DHTMlX Scheduler",
-						function () {
-							$$('scheduler_win').hide();
-							webix.html.removeCss($$("scheduler_button").$view, "active");
-						}, function () {
-							$$("scheduler_win").config.fullscreen = !$$("scheduler_win").config.fullscreen;
-							$$("scheduler_win").resize();
+			toolbar : toolbar,
+			acetoolbar : acetoolbar,
+			
+			aceeditor : aceeditor,
+			orders : orders,
+			recipes : recipes,
+			crm : crm,
+			merchants : merchants,
+			accounting : accounting,
+			deliveredAndRejectedOrders : pastOrders,
 
-							$$("scheduler").config.fullscreen = !$$("scheduler").config.fullscreen;
-							$$("scheduler").resize();
-							$$("scheduler").getScheduler().updateView();
-						}, function () {
-							$$("toolbar").removeView("scheduler_button");
-							$$('scheduler_win').hide();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-					return {
-						view: "dhx-scheduler",
-						id: "scheduler",
-						date: new Date(2015, 7, 5),
-						mode: "month",
-						init: function () {
-							this.getScheduler().config.xml_date = "%Y-%m-%d %H:%i";
-							this.getScheduler().config.first_hour = 6;
-							this.getScheduler().config.multi_day = false;
-						},
-						ready: function () {
-							this.getScheduler().parse(test_data_set_2015);
-						}
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("scheduler");
-					}
-				}
-			},
-			gantt: {
-				toolbar: function () {
-					return [
-						"DHTMlX Gantt",
-						function () {
-							$$('gantt_win').hide();
-							webix.html.removeCss($$("gantt_button").$view, "active");
-						},
-						function () {
-							$$("gantt_win").config.fullscreen = !$$("gantt_win").config.fullscreen;
-							$$("gantt_win").resize();
-
-							$$("gantt").config.fullscreen = !$$("scheduler").config.fullscreen;
-							$$("gantt").resize();
-							gantt.render();
-						}, function () {
-							$$("toolbar").removeView("gantt_button");
-							$$('gantt_win').hide();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-					return {
-						view: "dhx-gantt",
-						id: "gantt",
-						init: function () {
-							//do nothing
-						},
-						ready: function () {
-							gantt.parse(tasks);
-						}
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("gantt");
-					}
-				}
-			},
-
-			aceeditor: {
-				toolbar: function () {
-					return [
-						"Ace Editor",
-                        function () {
-                            if(commitValidator()) {
-//							openNewWindow("aceeditor");
-                            getCommitMessage();
-                            
-                            } else {
-                                webix.message("Not valid structure")
-                            }
-						},
-                        function() {
-                            let finalData = $$('editor').getValue();
-							console.log(currentfile);
-							if (currentfile !== undefined) {
-								if (Object.is(initialData.response, finalData)) {
-									console.log("No change in data");
-								} else {
-									console.log("Change in data");
-									updateData(currentfile, finalData);
-								}
-							}
-                            webix.message("File is not commited");
-                        },
-                        
-						function () {
-							openNewWindow("aceeditor");
-						},
-						function () {
-							$$('aceeditor_win').hide();
-							webix.html.removeCss($$("aceeditor_button").$view, "active");
-						},
-						function () {
-							$$("aceeditor_win").config.fullscreen = !$$("aceeditor_win").config.fullscreen;
-							$$("aceeditor_win").resize();
-
-							aceeditor.render();
-						}, function () {
-                            let finalData = $$('editor').getValue();
-							console.log(currentfile);
-                            console.log(initialData);
-                            if(initialData == undefined){
-                                initialData = {
-                                    response : '',
-                                }
-                            }
-							if (currentfile !== undefined) {
-								if (Object.is(initialData.response, finalData)) {
-									console.log("No change in data");
-								} else {
-									console.log("Change in data");
-									updateData(currentfile, finalData);
-								}
-							}
-                            
-							
-
-							//							if($$('editor').getEditor().getSession().on("change", function () {
-							//								// textarea.val(editor.getSession().getValue())
-							//								console.log("value changed");
-							//							}));
-							$$('editor').setValue('');
-							currentfile = undefined;
-							$$("toolbar").removeView("aceeditor_button");
-							$$('aceeditor_win').hide();
-							desktopApp.buttonCount--;
-                            
-//                            closingPopup();
-						}
-					]
-				},
-				body: function (editorValue) {
-					console.log("This is editor value", editorValue);
-					//					editorValue = editorValue || '';
-					return {
-
-						id: "editor",
-						view: "ace-editor",
-						value: " ",
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-                    
-						desktopApp.beforeWinShow("aceeditor");
-                        
-//                        let editor = $$("editor").getEditor();
-//                        getfilesdata();
-//                        console.log(popupdata);
-//                        let word  = '';
-//                        let popupWord = false;
-//                        
-//                        editor.on("change", function(e){
-//                            console.log(e);
-//                                if(e.action == 'insert' && e.lines[0] == '@') {
-//                                    word = '';
-//                                    popupWord = true;
-//                                    console.log("Should show dropdown");
-//
-////                                    console.log(editor.getCursorPosition())
-//                                        var popup = webix.ui({
-//                                            view:"popup",
-//                                            id:"my_popup",
-//                                            height:250,
-//                                            width:500,
-//                                            move: true,
-//                                            body:{
-//                                                view:"list",
-//                                                id: "popuplist",
-//                                                data : popupdata,
-//                                                template: "#value# - #id#",
-////                                                    autoheight:true,
-//                                                select:true,
-//                                                
-////								                onClick:{
-////                                                   console.log("item clicked")
-////                                                }
-//                                            }
-//
-//                                        }).show();
-//                                    $$('popuplist').attachEvent("onItemClick", function(id, e, node){
-//                                        var item = this.getItem(id);
-//                                        console.log(item);
-//                                        editor.removeWordLeft();
-//                                        editor.removeWordLeft();
-//                                        console.log(editor.getCursorPositionScreen());
-//                                        editor.session.insert(editor.getCursorPosition(), ' '+ item.value);
-//                                        $$('my_popup').close();
-//
-//                                    }); 
-//                                    console.log(popupdata);
-//                                }
-//                            
-//
-//                            if(e.action == 'insert' && e.lines[0] == ' ') {
-//                                popupWord = false;
-//                                newlist = null;
-//                            }
-//                            if(popupWord == true) {
-//                                $$("popuplist").clearAll();
-//                                if(e.action == 'insert'){
-////                                    var list = $$("my_popup").getPopup().getList();
-////                                    popupdata = ["nice", 'list'];
-////                                    $$('my_popup').close();
-////                                    console.log('popup closed')
-////                                    console.log(list)
-//                                    if(e.lines[0] !== '@') {
-//
-//                                    word = word + e.lines[0];
-//                                    console.log(popupdata);
-//                                        
-//                                    newpopupdata(word);
-////                                    $$("popuplist").add({value: "new dishes.json"});
-//
-//                                    }
-//                                }
-//                                if(e.action == 'remove') {
-//                                    if(e.lines[0] != '@') {
-//                                    word  = word.substring(0, word.length-1);
-//                                    newlist = null;
-//                                    newpopupdata(word);
-//                                    } else {
-//                                        popupWord = false;
-//                                        $$('my_popup').close();
-//                                        newlist = null;
-//                                    }
-//                                }
-//                                console.log(word);
-//                            }
-//                        });
-//                        
-//                        
-//                        editor.setOptions({
-//    enableBasicAutocompletion: true,
-//    enableSnippets: true,
-//    enableLiveAutocompletion: true
-//});
-                        
-                        
-//                        editor.commands.addCommand({
-//                        name: "dotCommand1",
-//                        bindKey: { win: ".", mac: "." },
-//                        exec: function () {
-//                            var pos = editor.selection.getCursor();
-//                            var session = editor.session;
-//
-//                            var curLine = (session.getDocument().getLine(pos.row)).trim();
-//                            var curTokens = curLine.slice(0, pos.column).split(/\s+/);
-//                            var curCmd = curTokens[0];
-//                            if (!curCmd) return;
-//                            var lastToken = curTokens[curTokens.length - 1];
-//
-//                            editor.insert(".");                
-//
-//                            console.log(pos, session, curLine, curTokens, curCmd,lastToken);
-//                            if (lastToken === "foo") {
-//                                 var wordList = ["baar", "bar", "baz"];
-//                                callback(null, wordList.map(function(word) {
-//                                    return {
-//                                        caption: word,
-//                                        value: word,
-//                                        meta: "static"
-//                                    };
-//                                // Add your words to the list or then insert into the editor using editor.insert()
-//                            }))
-//                        }
-//                        }
-//					});
-                        
-
-					},
-                    
-                    onShow : function () {
-
-                         let editor = $$("editor").getEditor();
-                        getfilesdata();
-                        console.log(popupdata);
-                        let word  = '';
-                        let popupWord = false;
-                        
-                        editor.on("change", function(e){
-                            console.log(e);
-                                if(e.action == 'insert' && e.lines[0] == '@') {
-                                    word = '';
-                                    popupWord = true;
-                                    console.log("Should show dropdown");
-
-//                                    console.log(editor.getCursorPosition())
-                                        var popup = webix.ui({
-                                            view:"popup",
-                                            id:"my_popup",
-                                            height:250,
-                                            width:500,
-                                            move: true,
-                                            body:{
-                                                view:"list",
-                                                id: "popuplist",
-                                                data : popupdata,
-                                                template: "#value# - #id#",
-//                                                    autoheight:true,
-                                                select:true,
-                                                
-//								                onClick:{
-//                                                   console.log("item clicked")
-//                                                }
-                                            }
-
-                                        }).show();
-                                    $$('popuplist').attachEvent("onItemClick", function(id, e, node){
-                                        var item = this.getItem(id);
-                                        console.log(item);
-                                        editor.removeWordLeft();
-                                        editor.removeWordLeft();
-                                        console.log(editor.getCursorPositionScreen());
-                                        editor.session.insert(editor.getCursorPosition(), ' '+ item.value);
-                                        $$('my_popup').close();
-
-                                    }); 
-                                    console.log(popupdata);
-                                }
-                            
-
-                            if(e.action == 'insert' && e.lines[0] == ' ') {
-                                popupWord = false;
-                                newlist = null;
-                            }
-                            if(popupWord == true) {
-                                $$("popuplist").clearAll();
-                                if(e.action == 'insert'){
-//                                    var list = $$("my_popup").getPopup().getList();
-//                                    popupdata = ["nice", 'list'];
-//                                    $$('my_popup').close();
-//                                    console.log('popup closed')
-//                                    console.log(list)
-                                    if(e.lines[0] !== '@') {
-
-                                    word = word + e.lines[0];
-                                    console.log(popupdata);
-                                        
-                                    newpopupdata(word);
-//                                    $$("popuplist").add({value: "new dishes.json"});
-
-                                    }
-                                }
-                                if(e.action == 'remove') {
-                                    if(e.lines[0] != '@') {
-                                    word  = word.substring(0, word.length-1);
-                                    newlist = null;
-                                    newpopupdata(word);
-                                    } else {
-                                        popupWord = false;
-                                        $$('my_popup').close();
-                                        newlist = null;
-                                    }
-                                }
-                                console.log(word);
-                            }
-                        });
-                        
-                        
-                        editor.setOptions({
-    enableBasicAutocompletion: true,
-    enableSnippets: true,
-    enableLiveAutocompletion: true
-});
-                        
-//                        $$("editor").attachEvent("onKeyPress", function(code, e) {
-//                                console.log(code, e);
-//                        });
-                        
-//                          let editor = $$("editor").getEditor();
-//
-//                        editor.on("change", function(e){
-//                                        console.log(e)
-//                                        });
-//                        
- 
-                        
-
-                    },
-                    
-
-					onKeyPress: function () {
-						console.log("Key Press Occured");
-						console.log($$('editor').getValue());
-					},
-					onclose: function () {
-						console.log($$('editor').getValue());
-
-					},
-					onLiveEdit: function (state, editor, ignoreUpdate) {
-						console.log($$('editor').getValue());
-					},
-
-
-				}
-			},
-
-			orders: {
-				toolbar: function () {
-					return [
-						"Orders",
-						function () {
-							openNewWindow("orders");
-						},
-						function () {
-							$$('orders_win').hide();
-							webix.html.removeCss($$("orders_button").$view, "active");
-						},
-						function () {
-							$$("orders_win").config.fullscreen = !$$("orders_win").config.fullscreen;
-							$$("orders_win").resize();
-
-							orders.render();
-						}, function () {
-							$$("toolbar").removeView("orders_button");
-							$$('orders_win').hide();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-					return {
-						id: "frame",
-						view: "iframe",
-						src: "http://groctaurantretail.com/admin/zxy321/orders.php", // code string
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("orders");
-					},
-
-				}
-			},
-
-			recipes: {
-				toolbar: function () {
-					return [
-						"Recipes",
-						function () {
-							openNewWindow("recipes");
-						},
-						function () {
-							$$('recipes_win').hide();
-							webix.html.removeCss($$("recipes_button").$view, "active");
-						},
-						function () {
-							$$("recipes_win").config.fullscreen = !$$("recipes_win").config.fullscreen;
-							$$("recipes_win").resize();
-
-							recipes.render();
-						}, function () {
-							$$("toolbar").removeView("recipes_button");
-							$$('recipes_win').hide();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-					return {
-						id: "frame",
-						view: "iframe",
-						src: "http://groctaurantretail.com/admin/zxy321/recipe.php", // code string
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("recipes");
-					},
-
-				}
-			},
-
-			crm: {
-				toolbar: function () {
-					return [
-						"CRM",
-						function () {
-							openNewWindow("crm");
-						},
-						function () {
-							$$('crm_win').hide();
-							webix.html.removeCss($$("crm_button").$view, "active");
-						},
-						function () {
-							$$("crm_win").config.fullscreen = !$$("crm_win").config.fullscreen;
-							$$("crm_win").resize();
-
-							crm.render();
-						}, function () {
-							$$("toolbar").removeView("crm_button");
-							$$('crm_win').hide();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-					return {
-						id: "frame",
-						view: "iframe",
-						src: "http://groctaurantretail.com/admin/zxy321/crm.php", // code string
-
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("crm");
-					},
-
-				}
-			},
-
-			merchants: {
-				toolbar: function () {
-					return [
-						"Merchants",
-						function () {
-							openNewWindow("merchants");
-						},
-						function () {
-							$$('merchants_win').hide();
-							webix.html.removeCss($$("merchants_button").$view, "active");
-						},
-						function () {
-							$$("merchants_win").config.fullscreen = !$$("merchants_win").config.fullscreen;
-							$$("merchants_win").resize();
-
-							merchants.render();
-						}, function () {
-							$$("toolbar").removeView("merchants_button");
-							$$('merchants_win').hide();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-					return {
-						id: "frame",
-						view: "iframe",
-						src: "http://groctaurantretail.com/admin/zxy321/merchant.php", // code string
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("merchants");
-					},
-
-				}
-			},
-
-
-			accounting: {
-				toolbar: function () {
-					return [
-						"Accounting",
-						function () {
-							openNewWindow("accounting");
-						},
-						function () {
-							$$('accounting_win').hide();
-							webix.html.removeCss($$("accounting_button").$view, "active");
-						},
-						function () {
-							$$("accounting_win").config.fullscreen = !$$("accounting_win").config.fullscreen;
-							$$("accounting_win").resize();
-
-							accounting.render();
-						}, function () {
-							$$("toolbar").removeView("accounting_button");
-							$$('accounting_win').hide();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-					return {
-						id: "frame",
-						view: "iframe",
-						src: "http://groctaurantretail.com/admin/zxy321/accounting.php",
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("accounting");
-					},
-
-				}
-			},
-            
-            appstore: {
+			appstore: {
 				toolbar: function () {
 					return [
 						"App Store",
@@ -969,167 +206,9 @@ if (window.desktopApp)
 			},
 
 
-			deliveredAndRejectedOrders: {
-				toolbar: function () {
-					return [
-						"Delivered and Rejected Orders",
-						function () {
-							openNewWindow("deliveredAndRejectedOrders");
-						},
-						function () {
-							$$('deliveredAndRejectedOrders_win').hide();
-							webix.html.removeCss($$("deliveredAndRejectedOrders_button").$view, "active");
-						},
-						function () {
-							$$("deliveredAndRejectedOrders_win").config.fullscreen = !$$("deliveredAndRejectedOrders_win").config.fullscreen;
-							$$("deliveredAndRejectedOrders_win").resize();
+			
 
-							deliveredAndRejectedOrders.render();
-						}, function () {
-							$$("toolbar").removeView("deliveredAndRejectedOrders_button");
-							$$('deliveredAndRejectedOrders_win').hide();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-					return {
-						id: "frame",
-						view: "iframe",
-						src: "http://groctaurantretail.com/admin/zxy321/ordersproccessed.php",
-					}
-				},
-				events: {
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("deliveredAndRejectedOrders");
-					},
-
-				}
-			},
-
-			filemanager: {
-				css: "no_border ",
-				toolbar: function () {
-					return [
-						"Filemanager",
-						function () {
-							openNewWindow("filemanager");
-						},
-						function () {
-							$$('filemanager_win').hide();
-							webix.html.removeCss($$("filemanager_button").$view, "active");
-						},
-						function () {
-							$$("filemanager_win").config.fullscreen = !$$("filemanager_win").config.fullscreen;
-							$$("filemanager_win").resize();
-
-						}, function () {
-							$$("toolbar").removeView("filemanager_button");
-//							$$('filemanager_win').hide();
-                            $$('filemanager_win').close();
-							desktopApp.buttonCount--;
-						}
-					]
-				},
-				body: function () {
-
-					var filemanagerobject = {
-						view: "filemanager",
-						id: "filemanager",
-						disabledHistory: true,
-					}
-            
-					return filemanagerobject;
-				},
-
-				events: {
-//                    on: {
-//      onItemClick: function(id){ 
-//              console.log("success")
-//       }
-//},
-
-					onBeforeShow: function () {
-						desktopApp.beforeWinShow("filemanager");
-						var actions = $$("filemanager").getMenu();
-						actions.add({ id: "newFile", icon: "file", value: "Create New File" });
-
-						$$("filemanager").load("http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/loadfiles");
-						$$("filemanager").attachEvent("onBeforeDeleteFile", function (id) {
-							// your code
-							if (id == 'recipes') {
-								return false;
-							}
-						});
-                        console.log($$('filemanager'))
-                        console.log($$('filemanager').$$('files'));
-//                        $$("filemanager").$$("table").attachEvent("onItemDblClick", function(id, e, node){
-                            //  // datatable receives a complex cell id: {row:x, column:y} 
-                            //  webix.message(id.column)
-                            //                            console.log(id.row)
-                            //});
-						$$("filemanager").$$("table").attachEvent("onItemDblClick", function (id,e, node) {
-							console.log(id.row);
-							console.log(id);
-							if (id.row !== undefined || id !== undefined && id !== '$segmented1' && id !== 'newFile' && !id.startsWith('$button') && !id.startsWith('$search')) {
-
-								if (id.row != undefined) {
-									currentfile = id.row;
-									userAction(id.row);
-								} else {
-									currentfile = id;
-									userAction(id);
-								}
-							}
-						});
-                        
-
-//                         $$("editor").getEditor().commands.addCommand({
-//                                name: "myCommand",
-//                                bindKey: { win: "@", mac: "@" },
-//                                exec: function (editor) {
-//                                      autocomplete();
-//                                }
-//                         });
-//
-//                          let autocomplete = function () {
-//                                staticWordCompleter = {
-//                                    var getWordList = function(editor, session, pos, prefix, callback, isRHSEditor) {
-//                                    var wordList = ['done','nice']; // add your words to this list
-//
-//                                    callback(null, wordList.map(function(word) {
-//                                        return {
-//                                             caption: word,
-//                                            value: word
-//                                        };
-//                                    }))}};    
-//                                    editor.completers = [staticWordCompleter];
-//                            
-                    },
-					onShow: function () {
-
-						if (!$$("filemanager").$$("tree").getSelectedId())
-							$$("filemanager").$$("tree").select($$("filemanager").getFirstChildId(0));
-
-						var actions = $$("filemanager").getMenu();
-						console.log(actions);
-						actions.attachEvent("onItemClick", function (id) {
-							if (id == "newFile") {
-								console.log("Creating a new file");
-								filenamePopup('filemanager');
-							}
-						});
-					},
-					onItemSelect: function (id) {
-						console.log(id);
-					},
-
-					onItemDblClick: function (id, value, type) {
-						console.log(value, id, type);
-					},
-
-				}
-			},
+			filemanager: filemanager,
 		}
 	};
 
@@ -1181,7 +260,7 @@ let userAction = (filepath) => {
 				//            let modified = JSON.stringify(data.response, null, 4)
 				//            console.log('Stringified Data',modified);
 				editor(data.response);
-            }
+			}
 		})
 	//		.then(function (data) {
 	//        
@@ -1191,15 +270,15 @@ let userAction = (filepath) => {
 //ec2-18-219-87-48.us-east-2.compute.amazonaws.com
 
 let createNewFile = (filenameentered, object) => {
-//                initialData.response = "";
+	//                initialData.response = "";
 	console.log(filenameentered);
-//	let objectType = ($$("filemanager").getCurrentFolder().split('/')[2].toLowerCase());
-//	let object = {
-//		'file': $$("filemanager").getCurrentFolder() + '/' + filenameentered + '.json',
-//		'objectType': objectType
-//	};
+	//	let objectType = ($$("filemanager").getCurrentFolder().split('/')[2].toLowerCase());
+	//	let object = {
+	//		'file': $$("filemanager").getCurrentFolder() + '/' + filenameentered + '.json',
+	//		'objectType': objectType
+	//	};
 	console.log(object)
-    currentfile = object.file;
+	currentfile = object.file;
 	webix.ajax().headers({
 		"Accept": "application/json",
 		"Content-Type": "application/json",
@@ -1223,10 +302,10 @@ let createNewFile = (filenameentered, object) => {
 		})
 }
 
-let commitFile = (filepath, commitMessage) =>{
-    let object = {
+let commitFile = (filepath, commitMessage) => {
+	let object = {
 		'filePath': filepath,
-        'commitMessage' : commitMessage,
+		'commitMessage': commitMessage,
 	};
 	console.log(object)
 	webix.ajax().headers({
@@ -1238,93 +317,93 @@ let commitFile = (filepath, commitMessage) =>{
 		.then(function (data) {
 			data = data.json();
 			console.log('Status response of update data', data);
-			if(data.CommitId !== undefined) {
-                console.log('here');
-                webix.message("Successfully Commited")
-            }
-            return data;
-            
+			if (data.CommitId !== undefined) {
+				console.log('here');
+				webix.message("Successfully Commited")
+			}
+			return data;
+
 		})
 }
 
 let commitValidator = () => {
-    return true;
+	return true;
 }
 
 function closingPopup() {
-//	return new webix.promise(function (success, fail) {
-		let filenameentered;
-		webix.ui({
-			view: "window",
-			head: "Save the file",
-			id: "closing_confirmation_window",
-			body: {
-				view: "form",
-				id: "log_form",
-				width: 300,
-				elements: [
-					{ view: "text", label: "Do you want to save without closing?", name: "closingConfirmation", id: 'closingConfirmation' },
-					{
-						margin: 5, cols: [
-							{
-								view: "button", value: "Save File", css: "webix_primary", click: function (id) {
-//									console.log($$('filename').getValue());
-//									filenameentered = $$('filename').getValue();
-//									$$("file_save_window").close();
-//									console.log(filenameentered);
-//                                    $$('closing_confirmation_window').close();
-//                                     createNewFile(filenameentered);
-                                    console.log(id);
-								}
-							},
-                            {
-								view: "button", value: "Close without Saving", click: function (id) {
-									$$("file_save_window").close();
-									$$("toolbar").removeView("aceeditor_button");
-									$$('aceeditor_win').hide();
-                                    $$('editor').setValue('');
-									desktopApp.buttonCount--;
-								}
-							},
-                            
-							{
-								view: "button", value: "Cancel", click: function (id) {
-									$$("closing_confirmation_window").close();
-								}
-							},
-						]
-					}
-				]
-			}
-		}).show();
-//		success(filenameentered);
-       
-//	});
+	//	return new webix.promise(function (success, fail) {
+	let filenameentered;
+	webix.ui({
+		view: "window",
+		head: "Save the file",
+		id: "closing_confirmation_window",
+		body: {
+			view: "form",
+			id: "log_form",
+			width: 300,
+			elements: [
+				{ view: "text", label: "Do you want to save without closing?", name: "closingConfirmation", id: 'closingConfirmation' },
+				{
+					margin: 5, cols: [
+						{
+							view: "button", value: "Save File", css: "webix_primary", click: function (id) {
+								//									console.log($$('filename').getValue());
+								//									filenameentered = $$('filename').getValue();
+								//									$$("file_save_window").close();
+								//									console.log(filenameentered);
+								//                                    $$('closing_confirmation_window').close();
+								//                                     createNewFile(filenameentered);
+								console.log(id);
+							}
+						},
+						{
+							view: "button", value: "Close without Saving", click: function (id) {
+								$$("file_save_window").close();
+								$$("toolbar").removeView("aceeditor_button");
+								$$('aceeditor_win').hide();
+								$$('editor').setValue('');
+								desktopApp.buttonCount--;
+							}
+						},
+
+						{
+							view: "button", value: "Cancel", click: function (id) {
+								$$("closing_confirmation_window").close();
+							}
+						},
+					]
+				}
+			]
+		}
+	}).show();
+	//		success(filenameentered);
+
+	//	});
 }
 
-function getCommitMessage(){
-    let commitmessage;
- webix.ui({
-			view: "window",
-			head: "Enter Commit Message",
-			id: "commit_message_window",
-			body: {
-				view: "form",
-				id: "log_form",
-				width: 300,
-				elements: [
-					{ view: "text", label: "Message", name: "commitmessage", id: 'commitmessage' },
-					{
-						margin: 5, cols: 
-                        [
+function getCommitMessage() {
+	let commitmessage;
+	webix.ui({
+		view: "window",
+		head: "Enter Commit Message",
+		id: "commit_message_window",
+		body: {
+			view: "form",
+			id: "log_form",
+			width: 300,
+			elements: [
+				{ view: "text", label: "Message", name: "commitmessage", id: 'commitmessage' },
+				{
+					margin: 5, cols:
+						[
 							{
 								view: "button", value: "Save", css: "webix_primary", click: function (id) {
 									console.log($$('commitmessage').getValue());
 									commitmessage = $$('commitmessage').getValue();
 									$$("commit_message_window").close();
 
-                                    console.log(commitmessage);
-                                    makeCommit(commitmessage);
+									console.log(commitmessage);
+									makeCommit(commitmessage);
 								}
 							},
 							{
@@ -1336,30 +415,30 @@ function getCommitMessage(){
 								}
 							}
 						]
-					}
-				]
-			}
-		}).show();   
+				}
+			]
+		}
+	}).show();
 }
 
 function makeCommit(commitmessage) {
-    console.log(currentfile);
-    console.log("We are about to commit a file");
-    let finalData = $$('editor').getValue();
-    console.log(currentfile);
-    if (currentfile !== undefined) {
-        if (Object.is(initialData.response, finalData)) {
-            console.log("No change in data");
-        } else {
-            console.log("Change in data");
-            updateData(currentfile, finalData);
-        }
-        commitFile(currentfile, commitmessage);
-    }
+	console.log(currentfile);
+	console.log("We are about to commit a file");
+	let finalData = $$('editor').getValue();
+	console.log(currentfile);
+	if (currentfile !== undefined) {
+		if (Object.is(initialData.response, finalData)) {
+			console.log("No change in data");
+		} else {
+			console.log("Change in data");
+			updateData(currentfile, finalData);
+		}
+		commitFile(currentfile, commitmessage);
+	}
 }
 
-function getfilesdata () {
-    	webix.ajax().headers({
+function getfilesdata() {
+	webix.ajax().headers({
 		"Accept": "application/json",
 		"Content-Type": "application/json",
 		'Access-Control-Allow-Credentials': true,
@@ -1368,66 +447,71 @@ function getfilesdata () {
 		.then(function (data) {
 			data = data.json();
 			console.log(data);
-            return extractFiles(data);
+			return extractFiles(data);
 		})
 }
 
 function extractFiles(files) {
-      var onlyfiles = [];
+	var onlyfiles = [];
 
-      getFiles(files, onlyfiles);
+	getFiles(files, onlyfiles);
 
 
-    //   function getFiles(files) {
-    //   let onlyfiles = files.map(file => {
-    //       if (file.data == undefined) {
-    //           return file.value;
-    //       } else {
-    //           return getFiles(file.data);
-    //       }
-    //   });
-    // //   console.log(onlyfiles)
-    //   return onlyfiles;
-    // }
+	//   function getFiles(files) {
+	//   let onlyfiles = files.map(file => {
+	//       if (file.data == undefined) {
+	//           return file.value;
+	//       } else {
+	//           return getFiles(file.data);
+	//       }
+	//   });
+	// //   console.log(onlyfiles)
+	//   return onlyfiles;
+	// }
 
-    function getFiles(files, onlyfiles) {
-        
-        files.forEach(function(file){
-            if (file.data == undefined) {
-                console.log(file);
-                onlyfiles.push({value : file.value,
-                               id : file.id
-                });
-            } else {
-                getFiles(file.data, onlyfiles);
-            }
-        });
-      //   console.log(onlyfiles)
-        // return onlyfiles;
-      }
-//      console.log(onlyfiles);
-    popupdata = onlyfiles;
-//    console.log(onlyfiles)
-    return onlyfiles;
-  
+	function getFiles(files, onlyfiles) {
 
-// }
+		files.forEach(function (file) {
+			if (file.data == undefined) {
+				console.log(file);
+				onlyfiles.push({
+					value: file.value,
+					id: file.id
+				});
+			} else {
+				getFiles(file.data, onlyfiles);
+			}
+		});
+		//   console.log(onlyfiles)
+		// return onlyfiles;
+	}
+	//      console.log(onlyfiles);
+	popupdata = onlyfiles;
+	//    console.log(onlyfiles)
+	return onlyfiles;
+
+
+	// }
 }
 
 function newpopupdata(word) {
-    if(newlist == undefined || null) {
-        newlist = popupdata;
-    }
-    newlist = newlist.filter(function (entry) {
-  return word === entry.value.substring(0, word.length).toLowerCase();
-});
-//    console.log(newlist)
-    newlist.forEach(entry => {
-        $$("popuplist").add(entry);
-    })  
-    
-    
-//    newlist.
-    
+	if (newlist == undefined || null) {
+		newlist = popupdata;
+	}
+	newlist = newlist.filter(function (entry) {
+		return entry.value.toLowerCase().includes(word)
+		//  return word === entry.value.substring(0, word.length).toLowerCase();
+		//        entry.value.includes(word)
+
+		//        e.lines[0].includes('@')
+	});
+	//    console.log(newlist)
+	newlist.forEach(entry => {
+		$$("popuplist").add(entry);
+	})
+
+
+	//    newlist.
+
 }
 

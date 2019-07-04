@@ -46,7 +46,11 @@ desktopApp = {
 				}
 			}
 		});
-        
+//                                    desktopApp.wins.showApp("aceeditor");
+//
+//							$$("toolbar").removeView("aceeditor_button");
+//							$$('aceeditor_win').hide();
+//							desktopApp.buttonCount--;
 //        var eventId = webix.event("ace_editor", "keydown", logKey);
 	},
 
