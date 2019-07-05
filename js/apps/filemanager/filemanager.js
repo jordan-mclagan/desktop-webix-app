@@ -67,12 +67,16 @@ filemanager = {
                     if (id.row != undefined) {
                         currentfile = id.row;
                         console.log(currentfile);
-                        desktopApp.wins.showApp('aceeditor', currentfile)
-                        
+                        desktopApp.wins.showApp('aceeditor', currentfile);
+                        if(	$$("aceeditor_win")) {
+                            changeFileInEditor(currentfile);
+                        }
+//                        startEditor(currentfile);
 //                        userAction(id.row);
                     } else {
                         currentfile = id;
                         console.log(currentfile)
+//                        startEditor(currentfile)
                         desktopApp.wins.showApp('aceeditor', currentfile)
 //                        userAction(id);
                     }

@@ -376,7 +376,7 @@ acetoolbar = function (title, /*commitfile, savefile,*/ openaNewWindowControl, o
     };
 }
 
-aceeditor= {
+aceeditor = {
     toolbar: function () {
         return [
             "Ace Editor",
@@ -400,12 +400,16 @@ aceeditor= {
         ]
     },
     body: function (filepath) {
+    console.log("Inside the ace editor object")
         filepath = filepath || '';
+        if(filepath == "[object MouseEvent]"){
+            filepath = ''
+        }
         console.log(filepath)
         return {
             id: "frame",
             view: "iframe",
-            src: "http://127.0.0.1:37891/editor.html" + '?file=' + filepath,
+            src: "http://dailykit.org/aceeditor/" + (filepath == '' ? '' : '?file=' + filepath),
         }
     },
     events: {
@@ -415,3 +419,8 @@ aceeditor= {
 
     }
 }
+
+function changeFileInEditor(filepath) {
+    $$("frame").load("http://dailykit.org/aceeditor/" + (filepath == '' ? '' : '?file=' + filepath));
+}
+
