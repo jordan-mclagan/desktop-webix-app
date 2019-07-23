@@ -54,11 +54,7 @@ filemanager = {
             });
             console.log($$('filemanager'))
             console.log($$('filemanager').$$('files'));
-            //                        $$("filemanager").$$("table").attachEvent("onItemDblClick", function(id, e, node){
-            //  // datatable receives a complex cell id: {row:x, column:y} 
-            //  webix.message(id.column)
-            //                            console.log(id.row)
-            //});
+
             $$("filemanager").$$("table").attachEvent("onItemDblClick", function (id, e, node) {
                 console.log(id.row);
                 console.log(id);
@@ -69,7 +65,7 @@ filemanager = {
                         console.log(currentfile);
                         desktopApp.wins.showApp('aceeditor', currentfile);
                         if(	$$("aceeditor_win")) {
-                            changeFileInEditor(currentfile);
+                            addFileToEditor(currentfile);
                         }
 //                        startEditor(currentfile);
 //                        userAction(id.row);

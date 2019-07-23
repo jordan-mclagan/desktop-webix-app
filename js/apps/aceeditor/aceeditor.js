@@ -402,25 +402,48 @@ aceeditor = {
     body: function (filepath) {
     console.log("Inside the ace editor object")
         filepath = filepath || '';
-        if(filepath == "[object MouseEvent]"){
-            filepath = ''
+        if(filepath == "[object MouseEvent]"){ // to not react mouse clicks and read it as filename
+            filepath = '';
         }
-        console.log(filepath)
+        console.log(filepath);
+        addFileToEditor(filepath);
         return {
-            id: "frame",
+            id: "ace-iframe",
             view: "iframe",
-            src: "http://dailykit.org/aceeditor/" + (filepath == '' ? '' : '?file=' + filepath),
+//            src: "http://dailykit.org/aceeditor/" + (filepath == '' ? '' : '?file=' + filepath),
+            src : 'http://ec2-18-219-21-117.us-east-2.compute.amazonaws.com:3000/'
+//            src : 'http://127.0.0.1:44251'
         }
     },
     events: {
         onBeforeShow: function () {
             desktopApp.beforeWinShow("aceeditor");
         },
-
     }
 }
 
-function changeFileInEditor(filepath) {
-    $$("frame").load("http://dailykit.org/aceeditor/" + (filepath == '' ? '' : '?file=' + filepath));
+//function changeFileInEditor(filepath) {
+//    $$("ace-iframe").load("http://dailykit.org/aceeditor/" + (filepath == '' ? '' : '?file=' + filepath));
+//}
+
+
+let addFileToEditor = (filename) => {
+
+    let object = {
+	       "file" : filename,
+    }
+	console.log(object)
+    postObject = JSON.stringify(object)
+	webix.ajax().headers({
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		'Access-Control-Allow-Credentials': true,
+		'Access-Control-Allow-Origin': '*',
+	}).post('http://ec2-18-219-87-48.us-east-2.compute.amazonaws.com:3000/addFileToEditor', postObject)
+//	}).post('http://127.0.0.1:3000/addFileToEditor', postObject)
+		.then(function (data) {
+			data = data.json();
+			console.log('Status response of update data', data);
+		})
 }
 
