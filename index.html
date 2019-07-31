@@ -34,7 +34,7 @@
 
 	<script type="text/javascript" src="./TextEditors/components-master/ace/ace.js"></script>
         <script src="https://kit.fontawesome.com/3e7398fb6d.js"></script>
-
+    <script src="http://localhost:8080/auth/js/keycloak.js"></script>
 <!--
     <link href="css/jquery.atwho.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery.js"></script>
@@ -50,6 +50,8 @@
 
  </head>
  <body>
+ <button onclick="keycloak.logout()">logout</button>
+ <script src="js/keycloak.js"></script>
  <script type="text/javascript" charset="utf-8">
 	   desktopApp.init();
         

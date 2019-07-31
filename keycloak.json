@@ -1,0 +1,8 @@
+{
+  "realm": "dailykit",
+  "auth-server-url": "http://18.224.202.37:8080/auth",
+  "ssl-required": "external",
+  "resource": "dailyos4",
+  "public-client": true,
+  "confidential-port": 0
+}
